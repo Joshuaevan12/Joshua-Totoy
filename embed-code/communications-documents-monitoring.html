@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Document Monitoring Dashboard</title>
+  <title>Communications Documents Monitoring</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -69,7 +69,7 @@
 
     .header h1 {
       margin: 0;
-      font-size: clamp(1.02rem, 1.2vw + 0.72rem, 1.3rem);
+      font-size: clamp(1.02rem, 1.2vw + 0.72rem, 1.32rem);
       letter-spacing: 0.2px;
     }
 
@@ -112,6 +112,107 @@
       100% {
         box-shadow: 0 0 0 0 rgba(145, 230, 175, 0);
       }
+    }
+
+    .controls {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) minmax(170px, 220px) auto;
+      gap: 10px;
+      align-items: end;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .control {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    input,
+    select,
+    button {
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      font: inherit;
+      padding: 0 10px;
+      color: var(--text);
+      background: #fff;
+    }
+
+    button {
+      margin-top: auto;
+      min-width: 120px;
+      cursor: pointer;
+      font-weight: 700;
+      background: linear-gradient(120deg, var(--accent), var(--primary));
+      border: none;
+      color: #fff;
+    }
+
+    #refreshButton {
+      white-space: nowrap;
+    }
+
+    #statusPageFilter {
+      min-width: 0;
+    }
+
+    .stats {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .context-stats {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      box-shadow: 0 2px 10px rgba(67, 58, 43, 0.1);
+      min-height: 72px;
+    }
+
+    .card.context {
+      background: #ffffff;
+      border-style: dashed;
+    }
+
+    .card .value {
+      font-size: 1.34rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.1;
+      word-break: break-word;
+    }
+
+    .card .label {
+      margin-top: 4px;
+      font-size: 0.84rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
     }
 
     .sheet-nav {
@@ -194,93 +295,6 @@
       box-shadow: 0 4px 12px rgba(47, 58, 63, 0.3);
     }
 
-    .controls {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: minmax(260px, 1fr) minmax(170px, 220px) auto;
-      gap: 10px;
-      align-items: end;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 12px;
-      box-shadow: var(--shadow);
-    }
-
-    .control {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    label {
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.2px;
-      text-transform: uppercase;
-    }
-
-    input,
-    select,
-    button {
-      height: 40px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      font: inherit;
-      padding: 0 10px;
-      color: var(--text);
-      background: #fff;
-    }
-
-    button {
-      margin-top: auto;
-      min-width: 120px;
-      cursor: pointer;
-      font-weight: 700;
-      background: linear-gradient(120deg, var(--accent), var(--primary));
-      border: none;
-      color: #fff;
-    }
-
-    #refreshButton {
-      white-space: nowrap;
-    }
-
-    #statusPageFilter {
-      min-width: 0;
-    }
-
-    .stats {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 10px;
-    }
-
-    .card {
-      background: var(--surface-alt);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 10px 12px;
-      box-shadow: 0 2px 10px rgba(67, 58, 43, 0.1);
-    }
-
-    .card .value {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1.1;
-    }
-
-    .card .label {
-      margin-top: 4px;
-      font-size: 0.84rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.2px;
-    }
-
     .table-wrap {
       margin-top: 12px;
       border-radius: var(--radius);
@@ -339,6 +353,7 @@
     }
 
     .status.complete,
+    .status.completed,
     .status.done,
     .status.closed {
       background: var(--good-bg);
@@ -347,7 +362,8 @@
 
     .status.pending,
     .status.processing,
-    .status.review {
+    .status.review,
+    .status.in-progress {
       background: var(--warn-bg);
       color: var(--warn-text);
     }
@@ -398,6 +414,10 @@
 
       .stats {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .context-stats {
+        grid-template-columns: 1fr;
       }
 
       #refreshButton {
@@ -494,12 +514,8 @@
     }
 
     @media (max-width: 420px) {
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .controls,
-      .stats {
+      .stats,
+      .controls {
         grid-template-columns: 1fr;
       }
     }
@@ -508,8 +524,8 @@
 <body>
   <main class="page container">
     <section class="header">
-      <h1 id="pageTitle">Document Tracking and Monitoring</h1>
-      <p id="pageSubtitle">Operational status view for incoming and outgoing government documents.</p>
+      <h1 id="pageTitle">Communications Documents Monitoring</h1>
+      <p id="pageSubtitle">Operational status dashboard for communications documents monitoring.</p>
       <div class="meta" id="liveMeta" style="display: none">
         <span class="meta-dot" aria-hidden="true"></span>
         <span id="liveText">Auto-refresh is active</span>
@@ -538,14 +554,25 @@
         <div class="label">Total Records</div>
       </article>
       <article class="card">
+        <div class="value" id="completeCount">0</div>
+        <div class="label">Complete</div>
+      </article>
+      <article class="card">
+        <div class="value" id="pendingCount">0</div>
+        <div class="label">Pending</div>
+      </article>
+    </section>
+
+    <section class="context-stats" aria-label="Page context metrics">
+      <article class="card context">
         <div class="value" id="pagesCount">0</div>
         <div class="label">Document Pages</div>
       </article>
-      <article class="card">
+      <article class="card context">
         <div class="value" id="activePage">-</div>
         <div class="label">Current Page</div>
       </article>
-      <article class="card">
+      <article class="card context">
         <div class="value" id="lastUpdated">-</div>
         <div class="label">Last Updated</div>
       </article>
@@ -569,41 +596,25 @@
 
   <script>
     const DEFAULT_CSV_URL = "";
-    const DEFAULT_SPREADSHEET_ID = "153ulZrt1NZivMm5pCBvJGN2h0sFo-DM0";
-    const SHEET_PAGES = [
-      "Incoming & Outgoing Docs",
-      "Email Monitoring",
-      "Lease Contracts-for approval",
-      "Application to Lease",
-      "CSM",
-      "Transfer Order",
-      "DV & CHECKS",
-      "Office Order",
-      "GM Memo",
-      "HEA MEMO",
-      "Office Letters",
-      "PTE",
-      "TOR",
-      "Liquidation Report",
-      "HEA NOM",
-      "Travel Order",
-      "Consultant Docs",
-      "FTA",
-      "PNR_Consultant COS",
-      "DTRs",
-      "PURCHASE REQUEST",
-      "OOTC DOCS",
-      "Consultants File"
+    const DEFAULT_SPREADSHEET_ID = "1ocGPYt-sWWkW6-4RWkZAq6dxl1jtaUTcH_svy04SymY";
+    const FALLBACK_SHEET_PAGES = [
+      "INCOMING / OUTGOING",
+      "EMAIL MONITORING",
+      "SOCIAL MEDIA",
+      "SOCIAL MEDIA CONTENT SCHEDULE",
+      "MEMO",
+      "LETTER"
     ];
     const DEFAULT_REFRESH_SECONDS = 60;
     const MIN_REFRESH_SECONDS = 5;
-    const DEFAULT_SUBTITLE = "Operational status view for incoming and outgoing government documents.";
+    const DEFAULT_SUBTITLE = "Operational status dashboard for communications documents monitoring.";
 
     let allRows = [];
     let filteredRows = [];
     let pollTimerId = null;
     let currentSheetName = "";
     let activeLoadController = null;
+    let sheetPages = [...FALLBACK_SHEET_PAGES];
 
     const tableContainer = document.getElementById("tableContainer");
     const errorMessage = document.getElementById("errorMessage");
@@ -648,6 +659,10 @@
       return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
     }
 
+    function buildBaseCsvUrl() {
+      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv`;
+    }
+
     function buildNoCacheUrl(rawUrl) {
       const url = new URL(rawUrl);
       url.searchParams.set("_ts", Date.now().toString());
@@ -655,8 +670,30 @@
     }
 
     function getValidSheetName(value) {
-      const hit = SHEET_PAGES.find((name) => normalize(name) === normalize(value || ""));
-      return hit || SHEET_PAGES[0];
+      const hit = sheetPages.find((name) => normalize(name) === normalize(value || ""));
+      return hit || sheetPages[0];
+    }
+
+    function getSheetPagesFromQuery() {
+      const raw = getQueryParam("sheetPages");
+      if (!raw) {
+        return [];
+      }
+
+      return raw
+        .split("|")
+        .map((name) => name.trim())
+        .filter(Boolean);
+    }
+
+    async function initializeSheetPages() {
+      const queryPages = getSheetPagesFromQuery();
+      if (queryPages.length) {
+        sheetPages = queryPages;
+        return;
+      }
+
+      sheetPages = [...FALLBACK_SHEET_PAGES];
     }
 
     function updateSheetQueryParam(sheetName) {
@@ -693,7 +730,7 @@
       }
 
       sheetTabs.innerHTML = "";
-      SHEET_PAGES.forEach((name) => {
+      sheetPages.forEach((name) => {
         const chip = document.createElement("button");
         chip.type = "button";
         chip.className = "sheet-chip";
@@ -859,16 +896,6 @@
       });
     }
 
-    function getByCandidates(row, candidates) {
-      const keys = Object.keys(row);
-      const normalizedMap = new Map(keys.map((k) => [normalize(k), k]));
-      for (const candidate of candidates) {
-        const hit = normalizedMap.get(normalize(candidate));
-        if (hit) return row[hit] || "";
-      }
-      return "";
-    }
-
     function toStatusClass(value) {
       const v = normalize(value).replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
       return v || "pending";
@@ -885,29 +912,29 @@
       return "";
     }
 
+    function isCompleteStatus(statusValue) {
+      const normalized = normalize(statusValue);
+      return (
+        normalized.includes("complete") ||
+        normalized.includes("completed") ||
+        normalized.includes("done") ||
+        normalized.includes("closed")
+      );
+    }
+
     function matchesStatusFilter(row, filterValue) {
       if (filterValue === "all") {
         return true;
       }
 
-      const statusValue = normalize(getStatusLikeValue(row));
-      if (!statusValue) {
-        return true;
-      }
+      const statusValue = getStatusLikeValue(row);
 
       if (filterValue === "complete") {
-        return statusValue.includes("complete") || statusValue.includes("done") || statusValue.includes("closed");
+        return isCompleteStatus(statusValue);
       }
 
       if (filterValue === "pending") {
-        return (
-          statusValue.includes("pending") ||
-          statusValue.includes("for") ||
-          statusValue.includes("action") ||
-          statusValue.includes("approval") ||
-          statusValue.includes("review") ||
-          statusValue.includes("process")
-        );
+        return !isCompleteStatus(statusValue);
       }
 
       return true;
@@ -926,10 +953,14 @@
       return escapeHtml(value).replace(/`/g, "&#96;");
     }
 
-    function updateSummary(rows) {
+    function updateSummary(rows, sourceRows = rows) {
       const total = rows.length;
+      const complete = sourceRows.filter((row) => isCompleteStatus(getStatusLikeValue(row))).length;
+      const pending = sourceRows.length - complete;
       document.getElementById("totalCount").textContent = String(total);
-      document.getElementById("pagesCount").textContent = String(SHEET_PAGES.length);
+      document.getElementById("completeCount").textContent = String(complete);
+      document.getElementById("pendingCount").textContent = String(pending);
+      document.getElementById("pagesCount").textContent = String(sheetPages.length);
       document.getElementById("activePage").textContent = currentSheetName || "-";
       document.getElementById("lastUpdated").textContent = new Date().toLocaleString();
     }
@@ -980,8 +1011,26 @@
         return keywordOk && statusOk;
       });
 
-      updateSummary(filteredRows);
+      updateSummary(filteredRows, allRows);
       buildTable(filteredRows);
+    }
+
+    async function fetchRowsFromUrl(rawUrl, signal) {
+      const response = await fetch(buildNoCacheUrl(rawUrl), {
+        cache: "no-store",
+        signal,
+        headers: {
+          "cache-control": "no-cache",
+          pragma: "no-cache"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Unable to fetch data. HTTP ${response.status}`);
+      }
+
+      const text = await response.text();
+      return parseCsv(text);
     }
 
     async function loadData(options = {}) {
@@ -994,10 +1043,8 @@
       const refreshSeconds = parseRefreshSeconds();
 
       if (!csvParam) {
-        currentSheetName = getValidSheetName(sheetParam || currentSheetName || SHEET_PAGES[0]);
+        currentSheetName = getValidSheetName(sheetParam || currentSheetName || sheetPages[0]);
       }
-
-      const csvUrl = csvParam || DEFAULT_CSV_URL || buildSheetCsvUrl(currentSheetName);
 
       if (titleParam) {
         document.getElementById("pageTitle").textContent = titleParam;
@@ -1015,12 +1062,6 @@
         liveMeta.style.display = "none";
       }
 
-      if (!csvUrl) {
-        throw new Error(
-          "Google Sheets CSV URL is missing. Add it in DEFAULT_CSV_URL or pass ?csv=YOUR_PUBLISHED_CSV_URL in the embed link."
-        );
-      }
-
       if (showLoader || !allRows.length) {
         tableContainer.innerHTML = '<div class="loading">Loading data from Google Sheets...</div>';
       }
@@ -1030,26 +1071,26 @@
         activeLoadController.abort();
       }
       activeLoadController = new AbortController();
+      const { signal } = activeLoadController;
 
-      const response = await fetch(buildNoCacheUrl(csvUrl), {
-        cache: "no-store",
-        signal: activeLoadController.signal,
-        headers: {
-          "cache-control": "no-cache",
-          pragma: "no-cache"
+      let rows = [];
+
+      if (csvParam) {
+        rows = await fetchRowsFromUrl(csvParam, signal);
+      } else {
+        const targetUrl = DEFAULT_CSV_URL || buildSheetCsvUrl(currentSheetName);
+        rows = await fetchRowsFromUrl(targetUrl, signal);
+
+        if (!rows.length) {
+          rows = await fetchRowsFromUrl(buildBaseCsvUrl(), signal);
         }
-      });
-      if (!response.ok) {
-        throw new Error(`Unable to fetch data. HTTP ${response.status}`);
       }
 
-      const text = await response.text();
-      allRows = parseCsv(text);
-
-      if (!allRows.length) {
-        throw new Error("No rows found. Make sure the sheet is published and has a header row.");
+      if (!rows.length) {
+        throw new Error("No rows found. Make sure the sheet is shared for web access and has a header row.");
       }
 
+      allRows = rows;
       applyFilters();
       setActiveSheetChip();
     }
@@ -1106,19 +1147,24 @@
       }
     });
 
-    currentSheetName = getValidSheetName(getQueryParam("sheet") || SHEET_PAGES[0]);
-    renderSheetTabs();
+    async function init() {
+      await initializeSheetPages();
+      currentSheetName = getValidSheetName(getQueryParam("sheet") || sheetPages[0]);
+      renderSheetTabs();
 
-    loadData({ showLoader: true }).catch((error) => {
-      if (error.name === "AbortError") {
-        return;
-      }
-      errorMessage.textContent = error.message;
-      errorMessage.style.display = "block";
-      tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
-    });
+      loadData({ showLoader: true }).catch((error) => {
+        if (error.name === "AbortError") {
+          return;
+        }
+        errorMessage.textContent = error.message;
+        errorMessage.style.display = "block";
+        tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
+      });
 
-    startPolling();
+      startPolling();
+    }
+
+    init();
   </script>
 </body>
 </html>

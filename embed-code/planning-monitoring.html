@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OGM Planning Section Document Monitoring 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f1eb;
+      --surface: #ffffff;
+      --surface-alt: #faf7f1;
+      --text: #2f3a3f;
+      --muted: #6c6558;
+      --line: #d8d0c2;
+      --primary: #827153;
+      --primary-2: #9a8765;
+      --accent: #2f3a3f;
+      --accent-2: #4a565c;
+      --good-bg: #e8f4eb;
+      --good-text: #1c5f2f;
+      --warn-bg: #fff3d8;
+      --warn-text: #744b00;
+      --bad-bg: #fbe7e8;
+      --bad-text: #7a1d22;
+      --radius: 12px;
+      --shadow: 0 8px 26px rgba(67, 58, 43, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(130, 113, 83, 0.14), transparent 45%),
+        radial-gradient(circle at 80% 0%, rgba(47, 58, 63, 0.1), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Public Sans", "Segoe UI", Tahoma, sans-serif;
+    }
+
+    .container {
+      min-height: 100vh;
+      height: auto;
+      width: 100%;
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 18px auto;
+      padding: 14px;
+      width: min(1280px, 100%);
+    }
+
+    .header {
+      background: linear-gradient(120deg, var(--primary), var(--primary-2));
+      color: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 18px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: clamp(1.02rem, 1.2vw + 0.72rem, 1.32rem);
+      letter-spacing: 0.2px;
+    }
+
+    .header p {
+      margin: 4px 0 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(0.84rem, 0.5vw + 0.72rem, 0.95rem);
+    }
+
+    .meta {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      padding: 5px 10px;
+    }
+
+    .meta-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #91e6af;
+      box-shadow: 0 0 0 0 rgba(145, 230, 175, 0.65);
+      animation: pulse 1.9s ease-out infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(145, 230, 175, 0.65);
+      }
+      70% {
+        box-shadow: 0 0 0 9px rgba(145, 230, 175, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(145, 230, 175, 0);
+      }
+    }
+
+    .controls {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) minmax(170px, 220px) auto;
+      gap: 10px;
+      align-items: end;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .control {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    input,
+    select,
+    button {
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      font: inherit;
+      padding: 0 10px;
+      color: var(--text);
+      background: #fff;
+    }
+
+    button {
+      margin-top: auto;
+      min-width: 120px;
+      cursor: pointer;
+      font-weight: 700;
+      background: linear-gradient(120deg, var(--accent), var(--primary));
+      border: none;
+      color: #fff;
+    }
+
+    #refreshButton {
+      white-space: nowrap;
+    }
+
+    #statusPageFilter {
+      min-width: 0;
+    }
+
+    .stats {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .context-stats {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      box-shadow: 0 2px 10px rgba(67, 58, 43, 0.1);
+      min-height: 72px;
+    }
+
+    .card.context {
+      background: #ffffff;
+      border-style: dashed;
+    }
+
+    .card .value {
+      font-size: 1.34rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.1;
+      word-break: break-word;
+    }
+
+    .card .label {
+      margin-top: 4px;
+      font-size: 0.84rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    .sheet-nav {
+      margin-top: 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 10px;
+    }
+
+    .sheet-nav-title {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .sheet-nav-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .sheet-scroll-btn {
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid #c6bcab;
+      background: linear-gradient(180deg, #ffffff, #f2ede4);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sheet-list {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 2px 4px 4px;
+      scroll-behavior: smooth;
+    }
+
+    .sheet-chip {
+      flex: 0 0 auto;
+      border: 1px solid #c6bcab;
+      background: linear-gradient(180deg, #ffffff, #f7f2ea);
+      color: var(--accent);
+      border-radius: 999px;
+      height: 34px;
+      padding: 0 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .sheet-chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(67, 58, 43, 0.2);
+    }
+
+    .sheet-chip.active {
+      background: linear-gradient(120deg, var(--accent), var(--primary));
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(47, 58, 63, 0.3);
+    }
+
+    .table-wrap {
+      margin-top: 12px;
+      border-radius: var(--radius);
+      overflow: auto;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      max-height: min(68vh, 760px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 950px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--accent);
+      color: #fff;
+      text-align: center;
+      font-size: 0.84rem;
+      padding: 10px;
+      border-bottom: 2px solid var(--accent-2);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #fdfbf8;
+    }
+
+    tbody tr:hover {
+      background: #f2ede4;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .status.complete,
+    .status.completed,
+    .status.done,
+    .status.closed {
+      background: var(--good-bg);
+      color: var(--good-text);
+    }
+
+    .status.pending,
+    .status.processing,
+    .status.review,
+    .status.in-progress {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+    }
+
+    .status.overdue,
+    .status.rejected,
+    .status.failed {
+      background: var(--bad-bg);
+      color: var(--bad-text);
+    }
+
+    .mono {
+      font-family: Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.88rem;
+    }
+
+    .empty,
+    .error,
+    .loading {
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .error {
+      color: var(--bad-text);
+      background: #fff1f2;
+      border: 1px solid #efc2c5;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #refreshButton {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .context-stats {
+        grid-template-columns: 1fr;
+      }
+
+      #refreshButton {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 10px;
+      }
+
+      .sheet-nav-row {
+        grid-template-columns: 32px 1fr 32px;
+      }
+
+      .sheet-scroll-btn {
+        width: 32px;
+        min-width: 32px;
+        height: 32px;
+      }
+
+      .sheet-chip {
+        height: 32px;
+        padding: 0 10px;
+        font-size: 0.78rem;
+      }
+
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      #refreshButton {
+        grid-column: auto;
+      }
+
+      .table-wrap {
+        max-height: none;
+        overflow: visible;
+      }
+
+      table {
+        min-width: 0;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid var(--line);
+        padding: 8px 10px;
+      }
+
+      tbody tr:nth-child(odd),
+      tbody tr:hover {
+        background: transparent;
+      }
+
+      tbody td {
+        border-bottom: none;
+        display: grid;
+        grid-template-columns: minmax(120px, 42%) 1fr;
+        gap: 8px;
+        align-items: start;
+        padding: 4px 0;
+      }
+
+      tbody td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2px;
+        padding-top: 2px;
+      }
+
+      tbody td .status {
+        justify-self: start;
+      }
+
+      .mono {
+        word-break: break-word;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .stats,
+      .controls {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page container">
+    <section class="header">
+      <h1 id="pageTitle">Planning Section Document Monitoring</h1>
+      <p id="pageSubtitle">Operational status dashboard for planning section document monitoring.</p>
+      <div class="meta" id="liveMeta" style="display: none">
+        <span class="meta-dot" aria-hidden="true"></span>
+        <span id="liveText">Auto-refresh is active</span>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Filters and actions">
+      <div class="control">
+        <label for="searchInput">Search</label>
+        <input id="searchInput" type="search" placeholder="Search control number, subject, office, staff..." />
+      </div>
+      <div class="control">
+        <label for="statusPageFilter">Status Filter</label>
+        <select id="statusPageFilter">
+          <option value="all">All</option>
+          <option value="complete">Complete</option>
+          <option value="pending">Pending</option>
+        </select>
+      </div>
+      <button id="refreshButton" type="button">Refresh Data</button>
+    </section>
+
+    <section class="stats" aria-label="Quick summary cards">
+      <article class="card">
+        <div class="value" id="totalCount">0</div>
+        <div class="label">Total Records</div>
+      </article>
+      <article class="card">
+        <div class="value" id="completeCount">0</div>
+        <div class="label">Complete</div>
+      </article>
+      <article class="card">
+        <div class="value" id="pendingCount">0</div>
+        <div class="label">Pending</div>
+      </article>
+    </section>
+
+    <section class="context-stats" aria-label="Page context metrics">
+      <article class="card context">
+        <div class="value" id="pagesCount">0</div>
+        <div class="label">Document Pages</div>
+      </article>
+      <article class="card context">
+        <div class="value" id="activePage">-</div>
+        <div class="label">Current Page</div>
+      </article>
+      <article class="card context">
+        <div class="value" id="lastUpdated">-</div>
+        <div class="label">Last Updated</div>
+      </article>
+    </section>
+
+    <section class="sheet-nav" aria-label="Sheet page selector">
+      <p class="sheet-nav-title">Document Pages</p>
+      <div class="sheet-nav-row">
+        <button id="sheetScrollLeft" class="sheet-scroll-btn" type="button" aria-label="Scroll pages left">&#8249;</button>
+        <div class="sheet-list" id="sheetTabs"></div>
+        <button id="sheetScrollRight" class="sheet-scroll-btn" type="button" aria-label="Scroll pages right">&#8250;</button>
+      </div>
+    </section>
+
+    <section class="table-wrap" aria-label="Records table">
+      <div id="tableContainer" class="loading">Loading data from Google Sheets...</div>
+    </section>
+
+    <div id="errorMessage" class="error" style="display: none"></div>
+  </main>
+
+  <script>
+    const DEFAULT_CSV_URL = "";
+    const DEFAULT_SPREADSHEET_ID = "1Dgmuh6nPShtQKYAqNzwLb3PYVQy6gPyd8nmQvQlPxoU";
+    const SHEET_PAGES = [
+      "General Document Monitoring",
+      "Projects",
+      "Internal Documents",
+      "PTE",
+      "Incident Report",
+      "Transmittals",
+      "Minutes of Meeting",
+      "TY Meetings",
+      "PTE Summary (Received-Processed)",
+      "Email Update Monitoring",
+      "do not mind"
+    ];
+    const DEFAULT_REFRESH_SECONDS = 60;
+    const MIN_REFRESH_SECONDS = 5;
+    const DEFAULT_SUBTITLE = "Operational status dashboard for planning section document monitoring.";
+
+    let allRows = [];
+    let filteredRows = [];
+    let pollTimerId = null;
+    let currentSheetName = "";
+    let activeLoadController = null;
+
+    const tableContainer = document.getElementById("tableContainer");
+    const errorMessage = document.getElementById("errorMessage");
+    const searchInput = document.getElementById("searchInput");
+    const statusPageFilter = document.getElementById("statusPageFilter");
+    const refreshButton = document.getElementById("refreshButton");
+    const liveMeta = document.getElementById("liveMeta");
+    const liveText = document.getElementById("liveText");
+    const sheetTabs = document.getElementById("sheetTabs");
+    const sheetScrollLeft = document.getElementById("sheetScrollLeft");
+    const sheetScrollRight = document.getElementById("sheetScrollRight");
+
+    function getQueryParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    function normalize(text) {
+      return (text || "").toString().trim().toLowerCase();
+    }
+
+    function parseBooleanParam(value, defaultValue = true) {
+      if (value == null) return defaultValue;
+      const v = normalize(value);
+      if (v === "0" || v === "false" || v === "off" || v === "no") return false;
+      if (v === "1" || v === "true" || v === "on" || v === "yes") return true;
+      return defaultValue;
+    }
+
+    function parseRefreshSeconds() {
+      const refreshParam = getQueryParam("refreshSeconds");
+      if (!refreshParam) {
+        return DEFAULT_REFRESH_SECONDS;
+      }
+      const n = Number.parseInt(refreshParam, 10);
+      if (Number.isNaN(n)) {
+        return DEFAULT_REFRESH_SECONDS;
+      }
+      return Math.max(MIN_REFRESH_SECONDS, n);
+    }
+
+    function buildSheetCsvUrl(sheetName) {
+      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+    }
+
+    function buildBaseCsvUrl() {
+      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv`;
+    }
+
+    function buildNoCacheUrl(rawUrl) {
+      const url = new URL(rawUrl);
+      url.searchParams.set("_ts", Date.now().toString());
+      return url.toString();
+    }
+
+    function getValidSheetName(value) {
+      const hit = SHEET_PAGES.find((name) => normalize(name) === normalize(value || ""));
+      return hit || SHEET_PAGES[0];
+    }
+
+    function updateSheetQueryParam(sheetName) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("sheet", sheetName);
+      window.history.replaceState({}, "", url.toString());
+    }
+
+    function setActiveSheetChip() {
+      const chips = sheetTabs.querySelectorAll("button.sheet-chip");
+      chips.forEach((chip) => {
+        if (normalize(chip.dataset.sheetName) === normalize(currentSheetName)) {
+          chip.classList.add("active");
+        } else {
+          chip.classList.remove("active");
+        }
+      });
+    }
+
+    function scrollSheetTabs(direction) {
+      sheetTabs.scrollBy({ left: direction * 320, behavior: "smooth" });
+    }
+
+    function renderSheetTabs() {
+      const csvParam = getQueryParam("csv");
+      if (csvParam) {
+        sheetTabs.innerHTML = "";
+        const note = document.createElement("div");
+        note.className = "empty";
+        note.style.padding = "4px 2px";
+        note.textContent = "Custom CSV mode is active from the embed URL.";
+        sheetTabs.appendChild(note);
+        return;
+      }
+
+      sheetTabs.innerHTML = "";
+      SHEET_PAGES.forEach((name) => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "sheet-chip";
+        chip.textContent = name;
+        chip.dataset.sheetName = name;
+        chip.addEventListener("click", () => {
+          if (normalize(currentSheetName) === normalize(name)) {
+            return;
+          }
+          currentSheetName = name;
+          updateSheetQueryParam(currentSheetName);
+          setActiveSheetChip();
+          loadData({ showLoader: true }).catch((error) => {
+            if (error.name === "AbortError") {
+              return;
+            }
+            errorMessage.textContent = error.message;
+            errorMessage.style.display = "block";
+            tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
+          });
+        });
+        sheetTabs.appendChild(chip);
+      });
+      setActiveSheetChip();
+    }
+
+    function getHeaderRowFromQuery() {
+      const headerRowParam = getQueryParam("headerRow");
+      if (!headerRowParam) {
+        return null;
+      }
+      const n = Number.parseInt(headerRowParam, 10);
+      if (Number.isNaN(n) || n < 1) {
+        return null;
+      }
+      return n - 1;
+    }
+
+    function detectHeaderRowIndex(rows) {
+      const explicitHeaderIndex = getHeaderRowFromQuery();
+      if (explicitHeaderIndex !== null) {
+        return Math.min(explicitHeaderIndex, Math.max(rows.length - 1, 0));
+      }
+
+      const maxScan = Math.min(rows.length, 8);
+      let bestIndex = 0;
+      let bestScore = -1;
+
+      for (let i = 0; i < maxScan; i += 1) {
+        const r = rows[i] || [];
+        const nonEmpty = r.filter((cell) => (cell || "").trim() !== "");
+        const unique = new Set(nonEmpty.map((cell) => normalize(cell))).size;
+        const score = nonEmpty.length * 2 + unique;
+        if (score > bestScore) {
+          bestScore = score;
+          bestIndex = i;
+        }
+      }
+
+      return bestIndex;
+    }
+
+    function buildHeaders(rawHeader) {
+      const seen = new Map();
+      return rawHeader.map((cell) => {
+        const baseName = (cell || "").trim();
+        if (!baseName) {
+          return "";
+        }
+        const key = normalize(baseName);
+        const count = seen.get(key) || 0;
+        seen.set(key, count + 1);
+        if (count === 0) {
+          return baseName;
+        }
+        return `${baseName} (${count + 1})`;
+      });
+    }
+
+    function pruneUnwantedColumns(headers, dataRows) {
+      const keepIndexes = headers
+        .map((header, idx) => {
+          if (!header) {
+            return -1;
+          }
+          const isSynthetic = /^column\s+\d+(\s*\(\d+\))?$/i.test(header);
+          if (isSynthetic) {
+            return -1;
+          }
+          return idx;
+        })
+        .filter((idx) => idx >= 0);
+
+      if (!keepIndexes.length) {
+        return { headers: [], dataRows: [] };
+      }
+
+      return {
+        headers: keepIndexes.map((idx) => headers[idx]),
+        dataRows: dataRows.map((row) => keepIndexes.map((idx) => row[idx] || ""))
+      };
+    }
+
+    function parseCsv(csvText) {
+      const rows = [];
+      let row = [];
+      let value = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < csvText.length; i += 1) {
+        const char = csvText[i];
+        const next = csvText[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && next === '"') {
+            value += '"';
+            i += 1;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === "," && !inQuotes) {
+          row.push(value);
+          value = "";
+        } else if ((char === "\n" || char === "\r") && !inQuotes) {
+          if (char === "\r" && next === "\n") {
+            i += 1;
+          }
+          row.push(value);
+          value = "";
+          if (row.length > 1 || row[0]) {
+            rows.push(row);
+          }
+          row = [];
+        } else {
+          value += char;
+        }
+      }
+
+      if (value.length > 0 || row.length > 0) {
+        row.push(value);
+        rows.push(row);
+      }
+
+      if (rows.length === 0) {
+        return [];
+      }
+
+      const headerRowIndex = detectHeaderRowIndex(rows);
+      const headers = buildHeaders(rows[headerRowIndex] || []);
+      const dataRows = rows.slice(headerRowIndex + 1).filter((r) => r.some((cell) => (cell || "").trim() !== ""));
+      const compact = pruneUnwantedColumns(headers, dataRows);
+
+      if (!compact.headers.length) {
+        return [];
+      }
+
+      return compact.dataRows.map((r) => {
+        const record = {};
+        compact.headers.forEach((h, idx) => {
+          record[h] = (r[idx] || "").trim();
+        });
+        return record;
+      });
+    }
+
+    function toStatusClass(value) {
+      const v = normalize(value).replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+      return v || "pending";
+    }
+
+    function getStatusLikeValue(row) {
+      const keys = Object.keys(row);
+      for (const key of keys) {
+        const nk = normalize(key);
+        if (nk.includes("status") || nk.includes("state")) {
+          return row[key] || "";
+        }
+      }
+      return "";
+    }
+
+    function isCompleteStatus(statusValue) {
+      const normalized = normalize(statusValue);
+      return (
+        normalized.includes("complete") ||
+        normalized.includes("completed") ||
+        normalized.includes("done") ||
+        normalized.includes("closed")
+      );
+    }
+
+    function matchesStatusFilter(row, filterValue) {
+      if (filterValue === "all") {
+        return true;
+      }
+
+      const statusValue = getStatusLikeValue(row);
+
+      if (filterValue === "complete") {
+        return isCompleteStatus(statusValue);
+      }
+
+      if (filterValue === "pending") {
+        return !isCompleteStatus(statusValue);
+      }
+
+      return true;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value).replace(/`/g, "&#96;");
+    }
+
+    function updateSummary(rows, sourceRows = rows) {
+      const total = rows.length;
+      const complete = sourceRows.filter((row) => isCompleteStatus(getStatusLikeValue(row))).length;
+      const pending = sourceRows.length - complete;
+      document.getElementById("totalCount").textContent = String(total);
+      document.getElementById("completeCount").textContent = String(complete);
+      document.getElementById("pendingCount").textContent = String(pending);
+      document.getElementById("pagesCount").textContent = String(SHEET_PAGES.length);
+      document.getElementById("activePage").textContent = currentSheetName || "-";
+      document.getElementById("lastUpdated").textContent = new Date().toLocaleString();
+    }
+
+    function buildTable(rows) {
+      if (!rows.length) {
+        tableContainer.innerHTML = '<div class="empty">No records found for the selected filters.</div>';
+        return;
+      }
+
+      const headers = Object.keys(rows[0]);
+      const html = ["<table><thead><tr>"];
+      headers.forEach((h) => html.push(`<th>${escapeHtml(h)}</th>`));
+      html.push("</tr></thead><tbody>");
+
+      rows.forEach((row) => {
+        html.push("<tr>");
+        headers.forEach((header) => {
+          const value = row[header] || "";
+          const safeValue = escapeHtml(value);
+          const safeHeader = escapeAttr(header);
+          const normHeader = normalize(header);
+          if (normHeader.includes("status")) {
+            html.push(
+              `<td data-label="${safeHeader}"><span class="status ${toStatusClass(value)}">${escapeHtml(value || "Pending")}</span></td>`
+            );
+          } else if (normHeader.includes("control") || normHeader.includes("number")) {
+            html.push(`<td class="mono" data-label="${safeHeader}">${safeValue}</td>`);
+          } else {
+            html.push(`<td data-label="${safeHeader}">${safeValue}</td>`);
+          }
+        });
+        html.push("</tr>");
+      });
+
+      html.push("</tbody></table>");
+      tableContainer.innerHTML = html.join("");
+    }
+
+    function applyFilters() {
+      const keyword = normalize(searchInput.value);
+      const statusFilterValue = normalize(statusPageFilter.value || "all");
+
+      filteredRows = allRows.filter((row) => {
+        const haystack = normalize(Object.values(row).join(" "));
+        const keywordOk = !keyword || haystack.includes(keyword);
+        const statusOk = matchesStatusFilter(row, statusFilterValue);
+        return keywordOk && statusOk;
+      });
+
+      updateSummary(filteredRows, allRows);
+      buildTable(filteredRows);
+    }
+
+    async function fetchRowsFromUrl(rawUrl, signal) {
+      const response = await fetch(buildNoCacheUrl(rawUrl), {
+        cache: "no-store",
+        signal,
+        headers: {
+          "cache-control": "no-cache",
+          pragma: "no-cache"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Unable to fetch data. HTTP ${response.status}`);
+      }
+
+      const text = await response.text();
+      return parseCsv(text);
+    }
+
+    async function loadData(options = {}) {
+      const { showLoader = true } = options;
+      const csvParam = getQueryParam("csv");
+      const sheetParam = getQueryParam("sheet");
+      const titleParam = getQueryParam("title");
+      const subtitleParam = getQueryParam("subtitle");
+      const liveEnabled = parseBooleanParam(getQueryParam("live"), true);
+      const refreshSeconds = parseRefreshSeconds();
+
+      if (!csvParam) {
+        currentSheetName = getValidSheetName(sheetParam || currentSheetName || SHEET_PAGES[0]);
+      }
+
+      if (titleParam) {
+        document.getElementById("pageTitle").textContent = titleParam;
+      }
+
+      const subtitleBase = subtitleParam || DEFAULT_SUBTITLE;
+      document.getElementById("pageSubtitle").textContent = csvParam
+        ? subtitleBase
+        : `${subtitleBase} | Page: ${currentSheetName}`;
+
+      if (liveEnabled) {
+        liveMeta.style.display = "inline-flex";
+        liveText.textContent = `Near real-time refresh every ${refreshSeconds}s`;
+      } else {
+        liveMeta.style.display = "none";
+      }
+
+      if (showLoader || !allRows.length) {
+        tableContainer.innerHTML = '<div class="loading">Loading data from Google Sheets...</div>';
+      }
+      errorMessage.style.display = "none";
+
+      if (activeLoadController) {
+        activeLoadController.abort();
+      }
+      activeLoadController = new AbortController();
+      const { signal } = activeLoadController;
+
+      let rows = [];
+
+      if (csvParam) {
+        rows = await fetchRowsFromUrl(csvParam, signal);
+      } else {
+        const targetUrl = DEFAULT_CSV_URL || buildSheetCsvUrl(currentSheetName);
+        rows = await fetchRowsFromUrl(targetUrl, signal);
+
+        if (!rows.length) {
+          rows = await fetchRowsFromUrl(buildBaseCsvUrl(), signal);
+        }
+      }
+
+      if (!rows.length) {
+        throw new Error("No rows found. Make sure the sheet is shared for web access and has a header row.");
+      }
+
+      allRows = rows;
+      applyFilters();
+      setActiveSheetChip();
+    }
+
+    function startPolling() {
+      const liveEnabled = parseBooleanParam(getQueryParam("live"), true);
+      const refreshSeconds = parseRefreshSeconds();
+      if (!liveEnabled) {
+        return;
+      }
+
+      if (pollTimerId) {
+        clearInterval(pollTimerId);
+      }
+
+      pollTimerId = window.setInterval(() => {
+        if (document.hidden) {
+          return;
+        }
+        loadData({ showLoader: false }).catch((error) => {
+          if (error.name === "AbortError") {
+            return;
+          }
+          errorMessage.textContent = error.message;
+          errorMessage.style.display = "block";
+        });
+      }, refreshSeconds * 1000);
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    statusPageFilter.addEventListener("change", applyFilters);
+    sheetScrollLeft.addEventListener("click", () => scrollSheetTabs(-1));
+    sheetScrollRight.addEventListener("click", () => scrollSheetTabs(1));
+    refreshButton.addEventListener("click", () => {
+      loadData({ showLoader: true }).catch((error) => {
+        if (error.name === "AbortError") {
+          return;
+        }
+        errorMessage.textContent = error.message;
+        errorMessage.style.display = "block";
+        tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
+      });
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        loadData({ showLoader: false }).catch((error) => {
+          if (error.name === "AbortError") {
+            return;
+          }
+          errorMessage.textContent = error.message;
+          errorMessage.style.display = "block";
+        });
+      }
+    });
+
+    currentSheetName = getValidSheetName(getQueryParam("sheet") || SHEET_PAGES[0]);
+    renderSheetTabs();
+
+    loadData({ showLoader: true }).catch((error) => {
+      if (error.name === "AbortError") {
+        return;
+      }
+      errorMessage.textContent = error.message;
+      errorMessage.style.display = "block";
+      tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
+    });
+
+    startPolling();
+  </script>
+</body>
+</html>
