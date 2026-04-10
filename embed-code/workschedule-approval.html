@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OGM Planning Section Document Monitoring 2026</title>
+  <title>Work Schedule Approval Monitoring</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -37,19 +37,13 @@
     body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      min-height: 100%;
       background:
         radial-gradient(circle at 10% 10%, rgba(130, 113, 83, 0.14), transparent 45%),
         radial-gradient(circle at 80% 0%, rgba(47, 58, 63, 0.1), transparent 35%),
         var(--bg);
       color: var(--text);
       font-family: "Public Sans", "Segoe UI", Tahoma, sans-serif;
-    }
-
-    .container {
-      min-height: 100vh;
-      height: auto;
-      width: 100%;
     }
 
     .page {
@@ -69,7 +63,7 @@
 
     .header h1 {
       margin: 0;
-      font-size: clamp(1.02rem, 1.2vw + 0.72rem, 1.32rem);
+      font-size: clamp(1.05rem, 1.3vw + 0.72rem, 1.38rem);
       letter-spacing: 0.2px;
     }
 
@@ -83,8 +77,8 @@
       margin-top: 8px;
       display: inline-flex;
       align-items: center;
-      flex-wrap: wrap;
       gap: 8px;
+      flex-wrap: wrap;
       font-size: 0.82rem;
       color: rgba(255, 255, 255, 0.95);
       background: rgba(255, 255, 255, 0.16);
@@ -117,7 +111,7 @@
     .controls {
       margin-top: 12px;
       display: grid;
-      grid-template-columns: minmax(260px, 1fr) minmax(170px, 220px) auto;
+      grid-template-columns: minmax(240px, 1fr) minmax(170px, 220px) auto;
       gap: 10px;
       align-items: end;
       background: var(--surface);
@@ -131,6 +125,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      min-width: 0;
     }
 
     label {
@@ -151,11 +146,12 @@
       padding: 0 10px;
       color: var(--text);
       background: #fff;
+      min-width: 0;
     }
 
     button {
       margin-top: auto;
-      min-width: 120px;
+      min-width: 126px;
       cursor: pointer;
       font-weight: 700;
       background: linear-gradient(120deg, var(--accent), var(--primary));
@@ -163,25 +159,10 @@
       color: #fff;
     }
 
-    #refreshButton {
-      white-space: nowrap;
-    }
-
-    #statusPageFilter {
-      min-width: 0;
-    }
-
     .stats {
       margin-top: 12px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-    }
-
-    .context-stats {
-      margin-top: 10px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(180px, 1fr));
       gap: 10px;
     }
 
@@ -192,11 +173,6 @@
       padding: 10px 12px;
       box-shadow: 0 2px 10px rgba(67, 58, 43, 0.1);
       min-height: 72px;
-    }
-
-    .card.context {
-      background: #ffffff;
-      border-style: dashed;
     }
 
     .card .value {
@@ -255,6 +231,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      padding: 0;
     }
 
     .sheet-list {
@@ -308,7 +285,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 950px;
+      min-width: 900px;
     }
 
     thead th {
@@ -354,6 +331,7 @@
 
     .status.complete,
     .status.completed,
+    .status.approved,
     .status.done,
     .status.closed {
       background: var(--good-bg);
@@ -363,14 +341,16 @@
     .status.pending,
     .status.processing,
     .status.review,
-    .status.in-progress {
+    .status.in-progress,
+    .status.for-approval {
       background: var(--warn-bg);
       color: var(--warn-text);
     }
 
     .status.overdue,
     .status.rejected,
-    .status.failed {
+    .status.failed,
+    .status.cancelled {
       background: var(--bad-bg);
       color: var(--bad-text);
     }
@@ -378,6 +358,7 @@
     .mono {
       font-family: Consolas, "Liberation Mono", Menlo, monospace;
       font-size: 0.88rem;
+      word-break: break-word;
     }
 
     .empty,
@@ -407,28 +388,14 @@
       }
     }
 
-    @media (max-width: 980px) {
-      .controls {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .context-stats {
-        grid-template-columns: 1fr;
-      }
-
-      #refreshButton {
-        grid-column: 1 / -1;
-        width: 100%;
-      }
-    }
-
     @media (max-width: 760px) {
       .page {
         padding: 10px;
+      }
+
+      .controls,
+      .stats {
+        grid-template-columns: 1fr;
       }
 
       .sheet-nav-row {
@@ -445,14 +412,6 @@
         height: 32px;
         padding: 0 10px;
         font-size: 0.78rem;
-      }
-
-      .controls {
-        grid-template-columns: 1fr;
-      }
-
-      #refreshButton {
-        grid-column: auto;
       }
 
       .table-wrap {
@@ -492,6 +451,7 @@
         gap: 8px;
         align-items: start;
         padding: 4px 0;
+        text-align: left;
       }
 
       tbody td::before {
@@ -501,48 +461,33 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.2px;
-        padding-top: 2px;
-      }
-
-      tbody td .status {
-        justify-self: start;
-      }
-
-      .mono {
-        word-break: break-word;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .stats,
-      .controls {
-        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
-  <main class="page container">
+  <main class="page">
     <section class="header">
-      <h1 id="pageTitle">Planning Section Document Monitoring</h1>
-      <p id="pageSubtitle">Operational status dashboard for planning section document monitoring.</p>
-      <div class="meta" id="liveMeta" style="display: none">
+      <h1 id="pageTitle">Work Schedule Approval Monitoring</h1>
+      <p id="pageSubtitle">Responsive approval tracking dashboard for work schedule requests.</p>
+      <div class="meta" id="liveMeta">
         <span class="meta-dot" aria-hidden="true"></span>
-        <span id="liveText">Auto-refresh is active</span>
+        <span id="liveText">Near real-time refresh every 60s</span>
       </div>
     </section>
 
     <section class="controls" aria-label="Filters and actions">
       <div class="control">
         <label for="searchInput">Search</label>
-        <input id="searchInput" type="search" placeholder="Search control number, subject, office, staff..." />
+        <input id="searchInput" type="search" placeholder="Search request no., name, department, status..." />
       </div>
       <div class="control">
-        <label for="statusPageFilter">Status Filter</label>
-        <select id="statusPageFilter">
+        <label for="statusFilter">Status Filter</label>
+        <select id="statusFilter">
           <option value="all">All</option>
-          <option value="complete">Complete</option>
+          <option value="approved">Approved</option>
           <option value="pending">Pending</option>
+          <option value="rejected">Rejected</option>
         </select>
       </div>
       <button id="refreshButton" type="button">Refresh Data</button>
@@ -554,8 +499,8 @@
         <div class="label">Total Records</div>
       </article>
       <article class="card">
-        <div class="value" id="completeCount">0</div>
-        <div class="label">Complete</div>
+        <div class="value" id="approvedCount">0</div>
+        <div class="label">Approved</div>
       </article>
       <article class="card">
         <div class="value" id="pendingCount">0</div>
@@ -563,109 +508,64 @@
       </article>
     </section>
 
-    <section class="context-stats" aria-label="Page context metrics">
-      <article class="card context">
-        <div class="value" id="pagesCount">0</div>
-        <div class="label">Document Pages</div>
-      </article>
-      <article class="card context">
-        <div class="value" id="activePage">-</div>
-        <div class="label">Current Page</div>
-      </article>
-      <article class="card context">
-        <div class="value" id="lastUpdated">-</div>
-        <div class="label">Last Updated</div>
-      </article>
-    </section>
-
-    <section class="sheet-nav" aria-label="Sheet page selector">
-      <p class="sheet-nav-title">Document Pages</p>
-      <div class="sheet-nav-row">
-        <button id="sheetScrollLeft" class="sheet-scroll-btn" type="button" aria-label="Scroll pages left">&#8249;</button>
-        <div class="sheet-list" id="sheetTabs"></div>
-        <button id="sheetScrollRight" class="sheet-scroll-btn" type="button" aria-label="Scroll pages right">&#8250;</button>
-      </div>
-    </section>
-
     <section class="table-wrap" aria-label="Records table">
       <div id="tableContainer" class="loading">Loading data from Google Sheets...</div>
     </section>
 
-    <div id="errorMessage" class="error" style="display: none"></div>
+    <div id="errorMessage" class="error" style="display:none"></div>
   </main>
 
   <script>
-    const DEFAULT_CSV_URL = "";
-    const DEFAULT_SPREADSHEET_ID = "1Dgmuh6nPShtQKYAqNzwLb3PYVQy6gPyd8nmQvQlPxoU";
-    const SHEET_PAGES = [
-      "General Document Monitoring",
-      "Projects",
-      "Internal Documents",
-      "PTE",
-      "Incident Report",
-      "Transmittals",
-      "Minutes of Meeting",
-      "TY Meetings",
-      "PTE Summary (Received-Processed)",
-      "Email Update Monitoring",
-      "do not mind"
-    ];
+    const DEFAULT_SPREADSHEET_ID = "1YoMc9PgBKzpPkRrNKJ-BVqBsqb1C9M0C6CKLFzh-kk8";
+    const DEFAULT_HEADER_ROW = 1;
     const DEFAULT_REFRESH_SECONDS = 60;
     const MIN_REFRESH_SECONDS = 5;
-    const DEFAULT_SUBTITLE = "Operational status dashboard for planning section document monitoring.";
+    const DEFAULT_SUBTITLE = "Responsive approval tracking dashboard for work schedule requests.";
 
     let allRows = [];
     let filteredRows = [];
-    let pollTimerId = null;
-    let currentSheetName = "";
-    let activeLoadController = null;
     let rowOrderMap = new WeakMap();
+    let currentSheetName = "";
+    let sheetPages = [];
+    let sheetPageEntries = [];
+    let lastParsedHeaders = [];
+    let activeLoadController = null;
+    let pollTimerId = null;
 
     const tableContainer = document.getElementById("tableContainer");
     const errorMessage = document.getElementById("errorMessage");
     const searchInput = document.getElementById("searchInput");
-    const statusPageFilter = document.getElementById("statusPageFilter");
+    const statusFilter = document.getElementById("statusFilter");
     const refreshButton = document.getElementById("refreshButton");
     const liveMeta = document.getElementById("liveMeta");
     const liveText = document.getElementById("liveText");
-    const sheetTabs = document.getElementById("sheetTabs");
-    const sheetScrollLeft = document.getElementById("sheetScrollLeft");
-    const sheetScrollRight = document.getElementById("sheetScrollRight");
 
     function getQueryParam(name) {
       return new URLSearchParams(window.location.search).get(name);
     }
 
     function normalize(text) {
-      return (text || "").toString().trim().toLowerCase();
+      return String(text || "").trim().toLowerCase();
     }
 
-    function parseBooleanParam(value, defaultValue = true) {
+    function normalizeKey(text) {
+      return normalize(text).replace(/[^a-z0-9]/g, "");
+    }
+
+    function parseBooleanParam(value, defaultValue) {
       if (value == null) return defaultValue;
       const v = normalize(value);
-      if (v === "0" || v === "false" || v === "off" || v === "no") return false;
-      if (v === "1" || v === "true" || v === "on" || v === "yes") return true;
+      if (["0", "false", "off", "no"].includes(v)) return false;
+      if (["1", "true", "on", "yes"].includes(v)) return true;
       return defaultValue;
     }
 
     function parseRefreshSeconds() {
-      const refreshParam = getQueryParam("refreshSeconds");
-      if (!refreshParam) {
-        return DEFAULT_REFRESH_SECONDS;
-      }
-      const n = Number.parseInt(refreshParam, 10);
-      if (Number.isNaN(n)) {
-        return DEFAULT_REFRESH_SECONDS;
-      }
+      const raw = getQueryParam("refreshSeconds");
+      if (!raw) return DEFAULT_REFRESH_SECONDS;
+      const n = Number.parseInt(raw, 10);
+      if (Number.isNaN(n)) return DEFAULT_REFRESH_SECONDS;
       return Math.max(MIN_REFRESH_SECONDS, n);
-    }
-
-    function buildSheetCsvUrl(sheetName) {
-      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-    }
-
-    function buildBaseCsvUrl() {
-      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv`;
     }
 
     function buildNoCacheUrl(rawUrl) {
@@ -674,88 +574,79 @@
       return url.toString();
     }
 
-    function getValidSheetName(value) {
-      const hit = SHEET_PAGES.find((name) => normalize(name) === normalize(value || ""));
-      return hit || SHEET_PAGES[0];
+    function buildCsvUrlByGid(gid) {
+      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=${encodeURIComponent(String(gid))}`;
     }
 
-    function updateSheetQueryParam(sheetName) {
-      const url = new URL(window.location.href);
-      url.searchParams.set("sheet", sheetName);
-      window.history.replaceState({}, "", url.toString());
+    function decodeJsString(value) {
+      return String(value || "")
+        .replace(/\\x([0-9a-fA-F]{2})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+        .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+        .replace(/\\\//g, "/")
+        .replace(/\\"/g, '"')
+        .replace(/\\'/g, "'")
+        .replace(/\\n/g, "\n")
+        .replace(/\\r/g, "\r")
+        .replace(/\\t/g, "\t")
+        .replace(/\\\\/g, "\\");
     }
 
-    function setActiveSheetChip() {
-      const chips = sheetTabs.querySelectorAll("button.sheet-chip");
-      chips.forEach((chip) => {
-        if (normalize(chip.dataset.sheetName) === normalize(currentSheetName)) {
-          chip.classList.add("active");
-        } else {
-          chip.classList.remove("active");
+    async function fetchWorksheetEntries() {
+      const htmlUrl = `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/htmlview`;
+      const response = await fetch(buildNoCacheUrl(htmlUrl), {
+        cache: "no-store",
+        headers: {
+          "cache-control": "no-cache",
+          pragma: "no-cache"
         }
       });
-    }
 
-    function scrollSheetTabs(direction) {
-      sheetTabs.scrollBy({ left: direction * 320, behavior: "smooth" });
-    }
-
-    function renderSheetTabs() {
-      const csvParam = getQueryParam("csv");
-      if (csvParam) {
-        sheetTabs.innerHTML = "";
-        const note = document.createElement("div");
-        note.className = "empty";
-        note.style.padding = "4px 2px";
-        note.textContent = "Custom CSV mode is active from the embed URL.";
-        sheetTabs.appendChild(note);
-        return;
+      if (!response.ok) {
+        throw new Error(`Unable to discover sheet pages. HTTP ${response.status}`);
       }
 
-      sheetTabs.innerHTML = "";
-      SHEET_PAGES.forEach((name) => {
-        const chip = document.createElement("button");
-        chip.type = "button";
-        chip.className = "sheet-chip";
-        chip.textContent = name;
-        chip.dataset.sheetName = name;
-        chip.addEventListener("click", () => {
-          if (normalize(currentSheetName) === normalize(name)) {
-            return;
-          }
-          currentSheetName = name;
-          updateSheetQueryParam(currentSheetName);
-          setActiveSheetChip();
-          loadData({ showLoader: true }).catch((error) => {
-            if (error.name === "AbortError") {
-              return;
-            }
-            errorMessage.textContent = error.message;
-            errorMessage.style.display = "block";
-            tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
-          });
-        });
-        sheetTabs.appendChild(chip);
+      const html = await response.text();
+      const pattern = /items\.push\(\{name:\s*"((?:\\.|[^"])*)"[\s\S]*?gid:\s*"(-?\d+)"/g;
+      const entries = [];
+      let match;
+
+      while ((match = pattern.exec(html)) !== null) {
+        const rawName = decodeJsString(match[1]);
+        const gid = String(match[2] || "").trim();
+        const label = rawName.trim();
+        if (!label || !gid) continue;
+        entries.push({ label, sourceName: rawName, gid });
+      }
+
+      const seen = new Set();
+      return entries.filter((entry) => {
+        const key = `${normalize(entry.label)}|${entry.gid}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
       });
-      setActiveSheetChip();
     }
 
-    function getHeaderRowFromQuery() {
-      const headerRowParam = getQueryParam("headerRow");
-      if (!headerRowParam) {
-        return null;
+    function getHeaderRowFromQuery(rows) {
+      const raw = getQueryParam("headerRow");
+      if (!raw) {
+        return Math.min(Math.max(DEFAULT_HEADER_ROW - 1, 0), Math.max(rows.length - 1, 0));
       }
-      const n = Number.parseInt(headerRowParam, 10);
+
+      const n = Number.parseInt(raw, 10);
       if (Number.isNaN(n) || n < 1) {
-        return null;
+        return Math.min(Math.max(DEFAULT_HEADER_ROW - 1, 0), Math.max(rows.length - 1, 0));
       }
-      return n - 1;
+
+      return Math.min(n - 1, Math.max(rows.length - 1, 0));
     }
 
     function detectHeaderRowIndex(rows) {
-      const explicitHeaderIndex = getHeaderRowFromQuery();
-      if (explicitHeaderIndex !== null) {
-        return Math.min(explicitHeaderIndex, Math.max(rows.length - 1, 0));
+      const configuredIndex = getHeaderRowFromQuery(rows);
+      const configuredRow = rows[configuredIndex] || [];
+      const configuredHasData = configuredRow.some((cell) => String(cell || "").trim() !== "");
+      if (configuredHasData) {
+        return configuredIndex;
       }
 
       const maxScan = Math.min(rows.length, 8);
@@ -763,10 +654,14 @@
       let bestScore = -1;
 
       for (let i = 0; i < maxScan; i += 1) {
-        const r = rows[i] || [];
-        const nonEmpty = r.filter((cell) => (cell || "").trim() !== "");
+        const row = rows[i] || [];
+        const nonEmpty = row.filter((cell) => String(cell || "").trim() !== "");
         const unique = new Set(nonEmpty.map((cell) => normalize(cell))).size;
-        const score = nonEmpty.length * 2 + unique;
+        const hasStatusHeader = row.some((cell) => {
+          const n = normalize(cell);
+          return n.includes("approval") || n.includes("status") || n.includes("state");
+        });
+        const score = nonEmpty.length * 2 + unique + (hasStatusHeader ? 5 : 0);
         if (score > bestScore) {
           bestScore = score;
           bestIndex = i;
@@ -779,16 +674,12 @@
     function buildHeaders(rawHeader) {
       const seen = new Map();
       return rawHeader.map((cell) => {
-        const baseName = (cell || "").trim();
-        if (!baseName) {
-          return "";
-        }
+        const baseName = String(cell || "").trim();
+        if (!baseName) return "";
         const key = normalize(baseName);
         const count = seen.get(key) || 0;
         seen.set(key, count + 1);
-        if (count === 0) {
-          return baseName;
-        }
+        if (count === 0) return baseName;
         return `${baseName} (${count + 1})`;
       });
     }
@@ -796,14 +687,9 @@
     function pruneUnwantedColumns(headers, dataRows) {
       const keepIndexes = headers
         .map((header, idx) => {
-          if (!header) {
-            return -1;
-          }
-          const isSynthetic = /^column\s+\d+(\s*\(\d+\))?$/i.test(header);
-          if (isSynthetic) {
-            return -1;
-          }
-          return idx;
+          if (!header) return -1;
+          const synthetic = /^column\s+\d+(\s*\(\d+\))?$/i.test(header);
+          return synthetic ? -1 : idx;
         })
         .filter((idx) => idx >= 0);
 
@@ -824,31 +710,27 @@
       let inQuotes = false;
 
       for (let i = 0; i < csvText.length; i += 1) {
-        const char = csvText[i];
+        const ch = csvText[i];
         const next = csvText[i + 1];
 
-        if (char === '"') {
+        if (ch === '"') {
           if (inQuotes && next === '"') {
             value += '"';
             i += 1;
           } else {
             inQuotes = !inQuotes;
           }
-        } else if (char === "," && !inQuotes) {
+        } else if (ch === "," && !inQuotes) {
           row.push(value);
           value = "";
-        } else if ((char === "\n" || char === "\r") && !inQuotes) {
-          if (char === "\r" && next === "\n") {
-            i += 1;
-          }
+        } else if ((ch === "\n" || ch === "\r") && !inQuotes) {
+          if (ch === "\r" && next === "\n") i += 1;
           row.push(value);
           value = "";
-          if (row.length > 1 || row[0]) {
-            rows.push(row);
-          }
+          if (row.length > 1 || row[0]) rows.push(row);
           row = [];
         } else {
-          value += char;
+          value += ch;
         }
       }
 
@@ -857,209 +739,23 @@
         rows.push(row);
       }
 
-      if (rows.length === 0) {
-        return [];
-      }
+      if (!rows.length) return [];
 
       const headerRowIndex = detectHeaderRowIndex(rows);
       const headers = buildHeaders(rows[headerRowIndex] || []);
-      const dataRows = rows.slice(headerRowIndex + 1).filter((r) => r.some((cell) => (cell || "").trim() !== ""));
+      const dataRows = rows.slice(headerRowIndex + 1).filter((r) => r.some((cell) => String(cell || "").trim() !== ""));
       const compact = pruneUnwantedColumns(headers, dataRows);
+      lastParsedHeaders = compact.headers;
 
-      if (!compact.headers.length) {
-        return [];
-      }
+      if (!compact.headers.length) return [];
 
       return compact.dataRows.map((r) => {
         const record = {};
         compact.headers.forEach((h, idx) => {
-          record[h] = (r[idx] || "").trim();
+          record[h] = String(r[idx] || "").trim();
         });
         return record;
       });
-    }
-
-    function toStatusClass(value) {
-      const v = normalize(value).replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
-      return v || "pending";
-    }
-
-    function getStatusLikeValue(row) {
-      const keys = Object.keys(row);
-      for (const key of keys) {
-        const nk = normalize(key);
-        if (nk.includes("status") || nk.includes("state")) {
-          return row[key] || "";
-        }
-      }
-      return "";
-    }
-
-    function isCompleteStatus(statusValue) {
-      const normalized = normalize(statusValue);
-      return (
-        normalized.includes("complete") ||
-        normalized.includes("completed") ||
-        normalized.includes("done") ||
-        normalized.includes("closed")
-      );
-    }
-
-    function matchesStatusFilter(row, filterValue) {
-      if (filterValue === "all") {
-        return true;
-      }
-
-      const statusValue = getStatusLikeValue(row);
-
-      if (filterValue === "complete") {
-        return isCompleteStatus(statusValue);
-      }
-
-      if (filterValue === "pending") {
-        return !isCompleteStatus(statusValue);
-      }
-
-      return true;
-    }
-
-    function getByCandidates(row, candidates) {
-      const keys = Object.keys(row);
-      const normalizedMap = new Map(keys.map((k) => [normalize(k), k]));
-      for (const candidate of candidates) {
-        const hit = normalizedMap.get(normalize(candidate));
-        if (hit) return row[hit] || "";
-      }
-      return "";
-    }
-
-    function getRowDateScore(row) {
-      const candidates = [
-        "Timestamp",
-        "Date Submitted",
-        "Date Created",
-        "Date",
-        "Created At",
-        "Received Date",
-        "Submitted At",
-        "Submission Date"
-      ];
-
-      const value = getByCandidates(row, candidates);
-      if (!value) {
-        return 0;
-      }
-
-      return parseDateValue(value);
-    }
-
-    function parseDateValue(value) {
-      const raw = String(value || "").trim();
-      if (!raw) {
-        return 0;
-      }
-
-      const dmyMatch = raw.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
-      if (dmyMatch) {
-        const day = Number(dmyMatch[1]);
-        const month = Number(dmyMatch[2]);
-        let year = Number(dmyMatch[3]);
-        if (year < 100) {
-          year += 2000;
-        }
-        const hour = Number(dmyMatch[4] || 0);
-        const minute = Number(dmyMatch[5] || 0);
-        const second = Number(dmyMatch[6] || 0);
-        const date = new Date(year, month - 1, day, hour, minute, second);
-        const timestamp = date.getTime();
-        return Number.isNaN(timestamp) ? 0 : timestamp;
-      }
-
-      const parsed = Date.parse(raw);
-      return Number.isNaN(parsed) ? 0 : parsed;
-    }
-
-    function escapeHtml(value) {
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
-
-    function escapeAttr(value) {
-      return escapeHtml(value).replace(/`/g, "&#96;");
-    }
-
-    function updateSummary(rows, sourceRows = rows) {
-      const total = rows.length;
-      const complete = sourceRows.filter((row) => isCompleteStatus(getStatusLikeValue(row))).length;
-      const pending = sourceRows.length - complete;
-      document.getElementById("totalCount").textContent = String(total);
-      document.getElementById("completeCount").textContent = String(complete);
-      document.getElementById("pendingCount").textContent = String(pending);
-      document.getElementById("pagesCount").textContent = String(SHEET_PAGES.length);
-      document.getElementById("activePage").textContent = currentSheetName || "-";
-      document.getElementById("lastUpdated").textContent = new Date().toLocaleString();
-    }
-
-    function buildTable(rows) {
-      if (!rows.length) {
-        tableContainer.innerHTML = '<div class="empty">No records found for the selected filters.</div>';
-        return;
-      }
-
-      const headers = Object.keys(rows[0]);
-      const html = ["<table><thead><tr>"];
-      headers.forEach((h) => html.push(`<th>${escapeHtml(h)}</th>`));
-      html.push("</tr></thead><tbody>");
-
-      rows.forEach((row) => {
-        html.push("<tr>");
-        headers.forEach((header) => {
-          const value = row[header] || "";
-          const safeValue = escapeHtml(value);
-          const safeHeader = escapeAttr(header);
-          const normHeader = normalize(header);
-          if (normHeader.includes("status")) {
-            html.push(
-              `<td data-label="${safeHeader}"><span class="status ${toStatusClass(value)}">${escapeHtml(value || "Pending")}</span></td>`
-            );
-          } else if (normHeader.includes("control") || normHeader.includes("number")) {
-            html.push(`<td class="mono" data-label="${safeHeader}">${safeValue}</td>`);
-          } else {
-            html.push(`<td data-label="${safeHeader}">${safeValue}</td>`);
-          }
-        });
-        html.push("</tr>");
-      });
-
-      html.push("</tbody></table>");
-      tableContainer.innerHTML = html.join("");
-    }
-
-    function applyFilters() {
-      const keyword = normalize(searchInput.value);
-      const statusFilterValue = normalize(statusPageFilter.value || "all");
-
-      filteredRows = allRows.filter((row) => {
-        const haystack = normalize(Object.values(row).join(" "));
-        const keywordOk = !keyword || haystack.includes(keyword);
-        const statusOk = matchesStatusFilter(row, statusFilterValue);
-        return keywordOk && statusOk;
-      });
-
-      filteredRows.sort((a, b) => {
-        const dateDiff = getRowDateScore(b) - getRowDateScore(a);
-        if (dateDiff !== 0) {
-          return dateDiff;
-        }
-        return (rowOrderMap.get(b) || 0) - (rowOrderMap.get(a) || 0);
-      });
-
-      updateSummary(filteredRows, allRows);
-      buildTable(filteredRows);
     }
 
     async function fetchRowsFromUrl(rawUrl, signal) {
@@ -1080,34 +776,249 @@
       return parseCsv(text);
     }
 
-    async function loadData(options = {}) {
-      const { showLoader = true } = options;
-      const csvParam = getQueryParam("csv");
-      const sheetParam = getQueryParam("sheet");
-      const titleParam = getQueryParam("title");
-      const subtitleParam = getQueryParam("subtitle");
+    function toStatusClass(value) {
+      return normalize(value).replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") || "pending";
+    }
+
+    function looksLikeStatusValue(value) {
+      const s = normalize(value);
+      return (
+        s === "pending" ||
+        s === "approved" ||
+        s === "rejected" ||
+        s.includes("for approval") ||
+        s.includes("in review") ||
+        s.includes("complete")
+      );
+    }
+
+    function getStatusLikeValue(row) {
+      const keys = Object.keys(row);
+      if (!keys.length) {
+        return "";
+      }
+
+      const firstKey = keys[0];
+      const firstValue = row[firstKey] || "";
+      if (looksLikeStatusValue(firstValue)) {
+        return firstValue;
+      }
+
+      const preferred = keys.find((key) => {
+        const nk = normalize(key);
+        return nk === "approval status" || nk === "status";
+      });
+
+      if (preferred) {
+        return row[preferred] || "";
+      }
+
+      for (const key of keys) {
+        const nk = normalize(key);
+        if (nk.includes("status") || nk.includes("approval") || nk.includes("state") || nk.includes("action")) {
+          return row[key] || "";
+        }
+      }
+      return "";
+    }
+
+    function isApprovedStatus(statusValue) {
+      const s = normalize(statusValue);
+      return s.includes("approved") || s.includes("complete") || s.includes("completed") || s.includes("done");
+    }
+
+    function isRejectedStatus(statusValue) {
+      const s = normalize(statusValue);
+      return s.includes("reject") || s.includes("decline") || s.includes("disapprove") || s.includes("cancel");
+    }
+
+    function matchesStatusFilter(row, value) {
+      if (value === "all") return true;
+      const status = getStatusLikeValue(row);
+      if (value === "approved") return isApprovedStatus(status);
+      if (value === "rejected") return isRejectedStatus(status);
+      if (value === "pending") return !isApprovedStatus(status) && !isRejectedStatus(status);
+      return true;
+    }
+
+    function getByCandidates(row, candidates) {
+      const keys = Object.keys(row);
+      const map = new Map(keys.map((k) => [normalize(k), k]));
+      for (const candidate of candidates) {
+        const hit = map.get(normalize(candidate));
+        if (hit) return row[hit] || "";
+      }
+      return "";
+    }
+
+    function parseDateValue(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return 0;
+
+      const dmy = raw.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+      if (dmy) {
+        const day = Number(dmy[1]);
+        const month = Number(dmy[2]);
+        let year = Number(dmy[3]);
+        if (year < 100) year += 2000;
+        const hour = Number(dmy[4] || 0);
+        const minute = Number(dmy[5] || 0);
+        const second = Number(dmy[6] || 0);
+        const d = new Date(year, month - 1, day, hour, minute, second);
+        const ts = d.getTime();
+        return Number.isNaN(ts) ? 0 : ts;
+      }
+
+      const parsed = Date.parse(raw);
+      return Number.isNaN(parsed) ? 0 : parsed;
+    }
+
+    function getRowDateScore(row) {
+      const candidates = [
+        "Timestamp",
+        "Date",
+        "Date Submitted",
+        "Date Filed",
+        "Date Requested",
+        "Request Date",
+        "Date Created",
+        "Created At",
+        "Submitted At",
+        "Approval Date",
+        "Schedule Date",
+        "Outgoing",
+        "Date (dd/mm/yy)",
+        "Date  (dd/mm/yy)",
+        "Date of Email    (dd/mm/yy)"
+      ];
+      const value = getByCandidates(row, candidates);
+      return parseDateValue(value);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value).replace(/`/g, "&#96;");
+    }
+
+    function updateSummary(viewRows, sourceRows) {
+      const total = viewRows.length;
+      const approved = sourceRows.filter((row) => isApprovedStatus(getStatusLikeValue(row))).length;
+      const pending = sourceRows.filter((row) => !isApprovedStatus(getStatusLikeValue(row)) && !isRejectedStatus(getStatusLikeValue(row))).length;
+
+      document.getElementById("totalCount").textContent = String(total);
+      document.getElementById("approvedCount").textContent = String(approved);
+      document.getElementById("pendingCount").textContent = String(pending);
+    }
+
+    function buildTable(rows, forcedHeaders = []) {
+      const headers = rows.length ? Object.keys(rows[0]) : forcedHeaders;
+      if (!headers.length) {
+        tableContainer.innerHTML = '<div class="empty">No records found for the selected filters.</div>';
+        return;
+      }
+
+      const html = ["<table><thead><tr>"];
+      headers.forEach((h) => html.push(`<th>${escapeHtml(h)}</th>`));
+      html.push("</tr></thead><tbody>");
+
+      if (!rows.length) {
+        html.push(`<tr><td colspan="${headers.length}" data-label="Notice">No records yet.</td></tr>`);
+        html.push("</tbody></table>");
+        tableContainer.innerHTML = html.join("");
+        return;
+      }
+
+      rows.forEach((row) => {
+        html.push("<tr>");
+        const firstHeader = headers[0] || "";
+        headers.forEach((header) => {
+          const value = row[header] || "";
+          const safeValue = escapeHtml(value);
+          const safeHeader = escapeAttr(header);
+          const nk = normalize(header);
+          const isStatusCol =
+            nk.includes("status") ||
+            nk.includes("approval") ||
+            nk.includes("state") ||
+            (header === firstHeader && looksLikeStatusValue(value));
+
+          if (isStatusCol) {
+            html.push(`<td data-label="${safeHeader}"><span class="status ${toStatusClass(value)}">${escapeHtml(value || "Pending")}</span></td>`);
+          } else if (nk.includes("control") || nk.includes("number") || nk.includes("request no") || nk.includes("id")) {
+            html.push(`<td class="mono" data-label="${safeHeader}">${safeValue}</td>`);
+          } else {
+            html.push(`<td data-label="${safeHeader}">${safeValue}</td>`);
+          }
+        });
+        html.push("</tr>");
+      });
+
+      html.push("</tbody></table>");
+      tableContainer.innerHTML = html.join("");
+    }
+
+    function applyFilters() {
+      const keyword = normalize(searchInput.value);
+      const selectedStatus = normalize(statusFilter.value || "all");
+
+      filteredRows = allRows.filter((row) => {
+        const haystack = normalize(Object.values(row).join(" "));
+        return (!keyword || haystack.includes(keyword)) && matchesStatusFilter(row, selectedStatus);
+      });
+
+      filteredRows.sort((a, b) => {
+        const dateDiff = getRowDateScore(b) - getRowDateScore(a);
+        if (dateDiff !== 0) return dateDiff;
+        return (rowOrderMap.get(b) || 0) - (rowOrderMap.get(a) || 0);
+      });
+
+      updateSummary(filteredRows, allRows);
+      buildTable(filteredRows);
+    }
+
+    function showErrorState(error) {
+      if (!error || error.name === "AbortError") return;
+      errorMessage.textContent = error.message || "Unable to load data.";
+      errorMessage.style.display = "block";
+      tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
+    }
+
+    function getSheetEntry(sheetName) {
+      const key = normalize(sheetName);
+      const compact = normalizeKey(sheetName);
+      return sheetPageEntries.find((entry) => {
+        return (
+          normalize(entry.label) === key ||
+          normalize(entry.sourceName) === key ||
+          normalizeKey(entry.label) === compact ||
+          normalizeKey(entry.sourceName) === compact
+        );
+      });
+    }
+
+    async function loadData(options) {
+      const opts = options || {};
+      const showLoader = opts.showLoader !== false;
       const liveEnabled = parseBooleanParam(getQueryParam("live"), true);
       const refreshSeconds = parseRefreshSeconds();
-
-      if (!csvParam) {
-        currentSheetName = getValidSheetName(sheetParam || currentSheetName || SHEET_PAGES[0]);
-      }
+      const titleParam = getQueryParam("title");
+      const subtitleParam = getQueryParam("subtitle");
 
       if (titleParam) {
         document.getElementById("pageTitle").textContent = titleParam;
       }
 
-      const subtitleBase = subtitleParam || DEFAULT_SUBTITLE;
-      document.getElementById("pageSubtitle").textContent = csvParam
-        ? subtitleBase
-        : `${subtitleBase} | Page: ${currentSheetName}`;
-
-      if (liveEnabled) {
-        liveMeta.style.display = "inline-flex";
-        liveText.textContent = `Near real-time refresh every ${refreshSeconds}s`;
-      } else {
-        liveMeta.style.display = "none";
-      }
+      document.getElementById("pageSubtitle").textContent = subtitleParam || DEFAULT_SUBTITLE;
+      liveMeta.style.display = liveEnabled ? "inline-flex" : "none";
+      liveText.textContent = `Near real-time refresh every ${refreshSeconds}s`;
 
       if (showLoader || !allRows.length) {
         tableContainer.innerHTML = '<div class="loading">Loading data from Google Sheets...</div>';
@@ -1118,97 +1029,66 @@
         activeLoadController.abort();
       }
       activeLoadController = new AbortController();
-      const { signal } = activeLoadController;
+      const signal = activeLoadController.signal;
 
-      let rows = [];
-
-      if (csvParam) {
-        rows = await fetchRowsFromUrl(csvParam, signal);
-      } else {
-        const targetUrl = DEFAULT_CSV_URL || buildSheetCsvUrl(currentSheetName);
-        rows = await fetchRowsFromUrl(targetUrl, signal);
-
-        if (!rows.length) {
-          rows = await fetchRowsFromUrl(buildBaseCsvUrl(), signal);
-        }
+      const sheetEntry = getSheetEntry(currentSheetName);
+      if (!sheetEntry || !sheetEntry.gid) {
+        throw new Error(`Sheet page "${currentSheetName}" was not found.`);
       }
 
+      const rows = await fetchRowsFromUrl(buildCsvUrlByGid(sheetEntry.gid), signal);
       if (!rows.length) {
-        throw new Error("No rows found. Make sure the sheet is shared for web access and has a header row.");
+        if (!lastParsedHeaders.length) {
+          throw new Error("No rows found. Make sure the sheet is shared for web access and has a header row.");
+        }
+        allRows = [];
+        rowOrderMap = new WeakMap();
+        updateSummary([], []);
+        buildTable([], lastParsedHeaders);
+        return;
       }
 
       allRows = rows;
       rowOrderMap = new WeakMap();
       allRows.forEach((row, idx) => rowOrderMap.set(row, idx));
       applyFilters();
-      setActiveSheetChip();
     }
 
     function startPolling() {
       const liveEnabled = parseBooleanParam(getQueryParam("live"), true);
+      if (!liveEnabled) return;
+
       const refreshSeconds = parseRefreshSeconds();
-      if (!liveEnabled) {
-        return;
-      }
-
-      if (pollTimerId) {
-        clearInterval(pollTimerId);
-      }
-
+      if (pollTimerId) clearInterval(pollTimerId);
       pollTimerId = window.setInterval(() => {
-        if (document.hidden) {
-          return;
-        }
-        loadData({ showLoader: false }).catch((error) => {
-          if (error.name === "AbortError") {
-            return;
-          }
-          errorMessage.textContent = error.message;
-          errorMessage.style.display = "block";
-        });
+        if (document.hidden) return;
+        loadData({ showLoader: false }).catch(showErrorState);
       }, refreshSeconds * 1000);
     }
 
+    async function init() {
+      sheetPageEntries = await fetchWorksheetEntries();
+      sheetPages = sheetPageEntries.map((entry) => entry.label);
+      if (!sheetPages.length) {
+        throw new Error("No worksheet pages discovered. Check if the sheet is published or shared correctly.");
+      }
+
+      currentSheetName = sheetPages[0];
+      await loadData({ showLoader: true });
+      startPolling();
+    }
+
     searchInput.addEventListener("input", applyFilters);
-    statusPageFilter.addEventListener("change", applyFilters);
-    sheetScrollLeft.addEventListener("click", () => scrollSheetTabs(-1));
-    sheetScrollRight.addEventListener("click", () => scrollSheetTabs(1));
-    refreshButton.addEventListener("click", () => {
-      loadData({ showLoader: true }).catch((error) => {
-        if (error.name === "AbortError") {
-          return;
-        }
-        errorMessage.textContent = error.message;
-        errorMessage.style.display = "block";
-        tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
-      });
-    });
+    statusFilter.addEventListener("change", applyFilters);
+    refreshButton.addEventListener("click", () => loadData({ showLoader: true }).catch(showErrorState));
 
     document.addEventListener("visibilitychange", () => {
       if (!document.hidden) {
-        loadData({ showLoader: false }).catch((error) => {
-          if (error.name === "AbortError") {
-            return;
-          }
-          errorMessage.textContent = error.message;
-          errorMessage.style.display = "block";
-        });
+        loadData({ showLoader: false }).catch(showErrorState);
       }
     });
 
-    currentSheetName = getValidSheetName(getQueryParam("sheet") || SHEET_PAGES[0]);
-    renderSheetTabs();
-
-    loadData({ showLoader: true }).catch((error) => {
-      if (error.name === "AbortError") {
-        return;
-      }
-      errorMessage.textContent = error.message;
-      errorMessage.style.display = "block";
-      tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
-    });
-
-    startPolling();
+    init().catch(showErrorState);
   </script>
 </body>
 </html>
