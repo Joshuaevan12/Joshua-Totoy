@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Approval of Wellness Leave</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f1eb;
+      --surface: #ffffff;
+      --surface-alt: #faf7f1;
+      --text: #2f3a3f;
+      --muted: #6c6558;
+      --line: #d8d0c2;
+      --primary: #827153;
+      --primary-2: #9a8765;
+      --accent: #2f3a3f;
+      --accent-2: #4a565c;
+      --radius: 12px;
+      --shadow: 0 8px 26px rgba(67, 58, 43, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(130, 113, 83, 0.14), transparent 45%),
+        radial-gradient(circle at 80% 0%, rgba(47, 58, 63, 0.1), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Public Sans", "Segoe UI", Tahoma, sans-serif;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1280px;
+      margin: 18px auto;
+      padding: 14px;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, var(--primary), var(--primary-2));
+      color: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .kicker {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.28px;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.12rem, 1.2vw + 0.78rem, 1.5rem);
+      letter-spacing: 0.2px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      font-size: clamp(0.88rem, 0.5vw + 0.76rem, 0.98rem);
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.55;
+      max-width: 900px;
+    }
+
+    .info-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      box-shadow: 0 2px 10px rgba(67, 58, 43, 0.1);
+      min-height: 84px;
+    }
+
+    .info-label {
+      margin: 0 0 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.22px;
+      color: var(--muted);
+    }
+
+    .info-text {
+      margin: 0;
+      color: var(--text);
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+
+    .frame-shell {
+      margin-top: 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .frame-header {
+      padding: 12px 14px;
+      background: var(--surface-alt);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .frame-header strong {
+      color: var(--accent);
+      font-size: 0.92rem;
+    }
+
+    .frame-note {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.4;
+    }
+
+    .frame-wrap {
+      position: relative;
+      width: 100%;
+      min-height: clamp(1020px, 86vh, 1500px);
+      background: #fff;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      min-height: clamp(1020px, 86vh, 1500px);
+      border: 0;
+      background: #fff;
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        padding: 10px;
+      }
+
+      .hero {
+        padding: 16px;
+      }
+
+      .frame-wrap,
+      iframe {
+        min-height: 1180px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        margin: 0 auto;
+        padding: 10px;
+      }
+
+      .hero {
+        border-radius: 10px;
+      }
+
+      .info-card {
+        padding: 10px 12px;
+      }
+
+      .frame-header {
+        padding: 10px 12px;
+      }
+
+      .frame-wrap,
+      iframe {
+        min-height: 1320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-label="Form introduction">
+      <span class="kicker">Government Service Request</span>
+      <h1>Approval of Wellness Leave</h1>
+      <p class="subtitle">
+        Use this form to request Approval of Wellness Leave and submit the required supporting details for processing.
+        The layout is optimized for Google Sites and designed to remain readable and responsive on desktop, tablet, and mobile devices.
+      </p>
+    </section>
+
+    <section class="info-grid" aria-label="Instructions summary">
+      <article class="info-card">
+        <p class="info-label">Before submitting</p>
+        <p class="info-text">Review all required information first so the request can be evaluated quickly and accurately.</p>
+      </article>
+      <article class="info-card">
+        <p class="info-label">Submission process</p>
+        <p class="info-text">Complete the form fields below, provide the needed details, and submit your leave request.</p>
+      </article>
+      <article class="info-card">
+        <p class="info-label">Review process</p>
+        <p class="info-text">The admin will receive the form submission and process the request based on the configured workflow.</p>
+      </article>
+    </section>
+
+    <section class="frame-shell" aria-label="Approval of Wellness Leave form">
+      <div class="frame-header">
+        <strong>APPROVAL OF WELLNESS LEAVE</strong>
+        <span class="frame-note">This is the live Google Form embed. Users can sign in and submit directly inside the page.</span>
+      </div>
+      <div class="frame-wrap">
+        <iframe
+          title="Approval of Wellness Leave Google Form"
+          src="https://docs.google.com/forms/d/e/1FAIpQLScf-29mJzBWe5jVXnJhxyR34hWswsbV8ksMHpffWJVH6UNXVA/viewform?embedded=true"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      This page uses the real Google Form, so the Google sign-in and submission flow remain native to Google Forms.
+    </p>
+  </main>
+</body>
+</html>

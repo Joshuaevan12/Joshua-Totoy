@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Application for Job Order Wellness Leave Monitoring</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f1eb;
+      --surface: #ffffff;
+      --surface-alt: #faf7f1;
+      --text: #2f3a3f;
+      --muted: #6c6558;
+      --line: #d8d0c2;
+      --primary: #827153;
+      --primary-2: #9a8765;
+      --accent: #2f3a3f;
+      --accent-2: #4a565c;
+      --good-bg: #e8f4eb;
+      --good-text: #1c5f2f;
+      --warn-bg: #fff3d8;
+      --warn-text: #744b00;
+      --bad-bg: #fbe7e8;
+      --bad-text: #7a1d22;
+      --radius: 12px;
+      --shadow: 0 8px 26px rgba(67, 58, 43, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(130, 113, 83, 0.14), transparent 45%),
+        radial-gradient(circle at 80% 0%, rgba(47, 58, 63, 0.1), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Public Sans", "Segoe UI", Tahoma, sans-serif;
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 18px auto;
+      padding: 14px;
+      width: min(1280px, 100%);
+    }
+
+    .header {
+      background: linear-gradient(120deg, var(--primary), var(--primary-2));
+      color: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 18px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: clamp(1.05rem, 1.3vw + 0.72rem, 1.38rem);
+      letter-spacing: 0.2px;
+    }
+
+    .header p {
+      margin: 4px 0 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(0.84rem, 0.5vw + 0.72rem, 0.95rem);
+    }
+
+    .meta {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      padding: 5px 10px;
+    }
+
+    .meta-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #91e6af;
+      box-shadow: 0 0 0 0 rgba(145, 230, 175, 0.65);
+      animation: pulse 1.9s ease-out infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(145, 230, 175, 0.65);
+      }
+      70% {
+        box-shadow: 0 0 0 9px rgba(145, 230, 175, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(145, 230, 175, 0);
+      }
+    }
+
+    .controls {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) minmax(170px, 220px) auto;
+      gap: 10px;
+      align-items: end;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .control {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    input,
+    select,
+    button {
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      font: inherit;
+      padding: 0 10px;
+      color: var(--text);
+      background: #fff;
+      min-width: 0;
+    }
+
+    button {
+      margin-top: auto;
+      min-width: 126px;
+      cursor: pointer;
+      font-weight: 700;
+      background: linear-gradient(120deg, var(--accent), var(--primary));
+      border: none;
+      color: #fff;
+    }
+
+    .stats {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      box-shadow: 0 2px 10px rgba(67, 58, 43, 0.1);
+      min-height: 72px;
+    }
+
+    .card .value {
+      font-size: 1.34rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.1;
+      word-break: break-word;
+    }
+
+    .card .label {
+      margin-top: 4px;
+      font-size: 0.84rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    .sheet-nav {
+      margin-top: 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 10px;
+    }
+
+    .sheet-nav-title {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .sheet-nav-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .sheet-scroll-btn {
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid #c6bcab;
+      background: linear-gradient(180deg, #ffffff, #f2ede4);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .sheet-list {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 2px 4px 4px;
+      scroll-behavior: smooth;
+    }
+
+    .sheet-chip {
+      flex: 0 0 auto;
+      border: 1px solid #c6bcab;
+      background: linear-gradient(180deg, #ffffff, #f7f2ea);
+      color: var(--accent);
+      border-radius: 999px;
+      height: 34px;
+      padding: 0 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .sheet-chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(67, 58, 43, 0.2);
+    }
+
+    .sheet-chip.active {
+      background: linear-gradient(120deg, var(--accent), var(--primary));
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(47, 58, 63, 0.3);
+    }
+
+    .table-wrap {
+      margin-top: 12px;
+      border-radius: var(--radius);
+      overflow: auto;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      max-height: min(68vh, 760px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--accent);
+      color: #fff;
+      text-align: center;
+      font-size: 0.84rem;
+      padding: 10px;
+      border-bottom: 2px solid var(--accent-2);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #fdfbf8;
+    }
+
+    tbody tr:hover {
+      background: #f2ede4;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .status.complete,
+    .status.completed,
+    .status.approved,
+    .status.done,
+    .status.closed {
+      background: var(--good-bg);
+      color: var(--good-text);
+    }
+
+    .status.pending,
+    .status.processing,
+    .status.review,
+    .status.in-progress,
+    .status.for-approval {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+    }
+
+    .status.overdue,
+    .status.rejected,
+    .status.failed,
+    .status.cancelled {
+      background: var(--bad-bg);
+      color: var(--bad-text);
+    }
+
+    .mono {
+      font-family: Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.88rem;
+      word-break: break-word;
+    }
+
+    .empty,
+    .error,
+    .loading {
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .error {
+      color: var(--bad-text);
+      background: #fff1f2;
+      border: 1px solid #efc2c5;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #refreshButton {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 10px;
+      }
+
+      .controls,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .sheet-nav-row {
+        grid-template-columns: 32px 1fr 32px;
+      }
+
+      .sheet-scroll-btn {
+        width: 32px;
+        min-width: 32px;
+        height: 32px;
+      }
+
+      .sheet-chip {
+        height: 32px;
+        padding: 0 10px;
+        font-size: 0.78rem;
+      }
+
+      .table-wrap {
+        max-height: none;
+        overflow: visible;
+      }
+
+      table {
+        min-width: 0;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid var(--line);
+        padding: 8px 10px;
+      }
+
+      tbody tr:nth-child(odd),
+      tbody tr:hover {
+        background: transparent;
+      }
+
+      tbody td {
+        border-bottom: none;
+        display: grid;
+        grid-template-columns: minmax(120px, 42%) 1fr;
+        gap: 8px;
+        align-items: start;
+        padding: 4px 0;
+        text-align: left;
+      }
+
+      tbody td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="header">
+      <h1 id="pageTitle">Application for Job Order Wellness Leave Monitoring</h1>
+      <p id="pageSubtitle">Responsive approval tracking dashboard for job order wellness leave requests.</p>
+      <div class="meta" id="liveMeta">
+        <span class="meta-dot" aria-hidden="true"></span>
+        <span id="liveText">Near real-time refresh every 60s</span>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Filters and actions">
+      <div class="control">
+        <label for="searchInput">Search</label>
+        <input id="searchInput" type="search" placeholder="Search request no., name, section, status..." />
+      </div>
+      <div class="control">
+        <label for="statusFilter">Status Filter</label>
+        <select id="statusFilter">
+          <option value="all">All</option>
+          <option value="approved">Approved</option>
+          <option value="pending">Pending</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <button id="refreshButton" type="button">Refresh Data</button>
+    </section>
+
+    <section class="stats" aria-label="Quick summary cards">
+      <article class="card">
+        <div class="value" id="totalCount">0</div>
+        <div class="label">Total Records</div>
+      </article>
+      <article class="card">
+        <div class="value" id="approvedCount">0</div>
+        <div class="label">Approved</div>
+      </article>
+      <article class="card">
+        <div class="value" id="pendingCount">0</div>
+        <div class="label">Pending</div>
+      </article>
+    </section>
+
+    <section class="table-wrap" aria-label="Records table">
+      <div id="tableContainer" class="loading">Loading data from Google Sheets...</div>
+    </section>
+
+    <div id="errorMessage" class="error" style="display:none"></div>
+  </main>
+
+  <script>
+    const DEFAULT_SPREADSHEET_ID = "1hzAQmYM9TD-LrX4tLi4yyg816OihRslbwoQorhEoZH8";
+    const DEFAULT_HEADER_ROW = 1;
+    const DEFAULT_REFRESH_SECONDS = 60;
+    const MIN_REFRESH_SECONDS = 5;
+    const DEFAULT_SUBTITLE = "Responsive approval tracking dashboard for job order wellness leave requests.";
+
+    let allRows = [];
+    let filteredRows = [];
+    let rowOrderMap = new WeakMap();
+    let currentSheetName = "";
+    let sheetPages = [];
+    let sheetPageEntries = [];
+    let lastParsedHeaders = [];
+    let activeLoadController = null;
+    let pollTimerId = null;
+
+    const tableContainer = document.getElementById("tableContainer");
+    const errorMessage = document.getElementById("errorMessage");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const refreshButton = document.getElementById("refreshButton");
+    const liveMeta = document.getElementById("liveMeta");
+    const liveText = document.getElementById("liveText");
+
+    function getQueryParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    function normalize(text) {
+      return String(text || "").trim().toLowerCase();
+    }
+
+    function normalizeKey(text) {
+      return normalize(text).replace(/[^a-z0-9]/g, "");
+    }
+
+    function parseBooleanParam(value, defaultValue) {
+      if (value == null) return defaultValue;
+      const v = normalize(value);
+      if (["0", "false", "off", "no"].includes(v)) return false;
+      if (["1", "true", "on", "yes"].includes(v)) return true;
+      return defaultValue;
+    }
+
+    function parseRefreshSeconds() {
+      const raw = getQueryParam("refreshSeconds");
+      if (!raw) return DEFAULT_REFRESH_SECONDS;
+      const n = Number.parseInt(raw, 10);
+      if (Number.isNaN(n)) return DEFAULT_REFRESH_SECONDS;
+      return Math.max(MIN_REFRESH_SECONDS, n);
+    }
+
+    function buildNoCacheUrl(rawUrl) {
+      const url = new URL(rawUrl);
+      url.searchParams.set("_ts", Date.now().toString());
+      return url.toString();
+    }
+
+    function buildCsvUrlByGid(gid) {
+      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=${encodeURIComponent(String(gid))}`;
+    }
+
+    function decodeJsString(value) {
+      return String(value || "")
+        .replace(/\\x([0-9a-fA-F]{2})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+        .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+        .replace(/\\\//g, "/")
+        .replace(/\\"/g, '"')
+        .replace(/\\'/g, "'")
+        .replace(/\\n/g, "\n")
+        .replace(/\\r/g, "\r")
+        .replace(/\\t/g, "\t")
+        .replace(/\\\\/g, "\\");
+    }
+
+    async function fetchWorksheetEntries() {
+      const htmlUrl = `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/htmlview`;
+      const response = await fetch(buildNoCacheUrl(htmlUrl), {
+        cache: "no-store",
+        headers: {
+          "cache-control": "no-cache",
+          pragma: "no-cache"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Unable to discover sheet pages. HTTP ${response.status}`);
+      }
+
+      const html = await response.text();
+      const pattern = /items\.push\(\{name:\s*"((?:\\.|[^"])*)"[\s\S]*?gid:\s*"(-?\d+)"/g;
+      const entries = [];
+      let match;
+
+      while ((match = pattern.exec(html)) !== null) {
+        const rawName = decodeJsString(match[1]);
+        const gid = String(match[2] || "").trim();
+        const label = rawName.trim();
+        if (!label || !gid) continue;
+        entries.push({ label, sourceName: rawName, gid });
+      }
+
+      const seen = new Set();
+      return entries.filter((entry) => {
+        const key = `${normalize(entry.label)}|${entry.gid}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function getHeaderRowFromQuery(rows) {
+      const raw = getQueryParam("headerRow");
+      if (!raw) {
+        return Math.min(Math.max(DEFAULT_HEADER_ROW - 1, 0), Math.max(rows.length - 1, 0));
+      }
+
+      const n = Number.parseInt(raw, 10);
+      if (Number.isNaN(n) || n < 1) {
+        return Math.min(Math.max(DEFAULT_HEADER_ROW - 1, 0), Math.max(rows.length - 1, 0));
+      }
+
+      return Math.min(n - 1, Math.max(rows.length - 1, 0));
+    }
+
+    function detectHeaderRowIndex(rows) {
+      const configuredIndex = getHeaderRowFromQuery(rows);
+      const configuredRow = rows[configuredIndex] || [];
+      const configuredHasData = configuredRow.some((cell) => String(cell || "").trim() !== "");
+      if (configuredHasData) {
+        return configuredIndex;
+      }
+
+      const maxScan = Math.min(rows.length, 8);
+      let bestIndex = 0;
+      let bestScore = -1;
+
+      for (let i = 0; i < maxScan; i += 1) {
+        const row = rows[i] || [];
+        const nonEmpty = row.filter((cell) => String(cell || "").trim() !== "");
+        const unique = new Set(nonEmpty.map((cell) => normalize(cell))).size;
+        const hasStatusHeader = row.some((cell) => {
+          const n = normalize(cell);
+          return n.includes("approval") || n.includes("status") || n.includes("state");
+        });
+        const score = nonEmpty.length * 2 + unique + (hasStatusHeader ? 5 : 0);
+        if (score > bestScore) {
+          bestScore = score;
+          bestIndex = i;
+        }
+      }
+
+      return bestIndex;
+    }
+
+    function buildHeaders(rawHeader) {
+      const seen = new Map();
+      return rawHeader.map((cell) => {
+        const baseName = String(cell || "").trim();
+        if (!baseName) return "";
+        const key = normalize(baseName);
+        const count = seen.get(key) || 0;
+        seen.set(key, count + 1);
+        if (count === 0) return baseName;
+        return `${baseName} (${count + 1})`;
+      });
+    }
+
+    function pruneUnwantedColumns(headers, dataRows) {
+      const keepIndexes = headers
+        .map((header, idx) => {
+          if (!header) return -1;
+          const synthetic = /^column\s+\d+(\s*\(\d+\))?$/i.test(header);
+          return synthetic ? -1 : idx;
+        })
+        .filter((idx) => idx >= 0);
+
+      if (!keepIndexes.length) {
+        return { headers: [], dataRows: [] };
+      }
+
+      return {
+        headers: keepIndexes.map((idx) => headers[idx]),
+        dataRows: dataRows.map((row) => keepIndexes.map((idx) => row[idx] || ""))
+      };
+    }
+
+    function parseCsv(csvText) {
+      const rows = [];
+      let row = [];
+      let value = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < csvText.length; i += 1) {
+        const ch = csvText[i];
+        const next = csvText[i + 1];
+
+        if (ch === '"') {
+          if (inQuotes && next === '"') {
+            value += '"';
+            i += 1;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (ch === "," && !inQuotes) {
+          row.push(value);
+          value = "";
+        } else if ((ch === "\n" || ch === "\r") && !inQuotes) {
+          if (ch === "\r" && next === "\n") i += 1;
+          row.push(value);
+          value = "";
+          if (row.length > 1 || row[0]) rows.push(row);
+          row = [];
+        } else {
+          value += ch;
+        }
+      }
+
+      if (value.length > 0 || row.length > 0) {
+        row.push(value);
+        rows.push(row);
+      }
+
+      if (!rows.length) return [];
+
+      const headerRowIndex = detectHeaderRowIndex(rows);
+      const headers = buildHeaders(rows[headerRowIndex] || []);
+      const dataRows = rows.slice(headerRowIndex + 1).filter((r) => r.some((cell) => String(cell || "").trim() !== ""));
+      const compact = pruneUnwantedColumns(headers, dataRows);
+      lastParsedHeaders = compact.headers;
+
+      if (!compact.headers.length) return [];
+
+      return compact.dataRows.map((r) => {
+        const record = {};
+        compact.headers.forEach((h, idx) => {
+          record[h] = String(r[idx] || "").trim();
+        });
+        return record;
+      });
+    }
+
+    async function fetchRowsFromUrl(rawUrl, signal) {
+      const response = await fetch(buildNoCacheUrl(rawUrl), {
+        cache: "no-store",
+        signal,
+        headers: {
+          "cache-control": "no-cache",
+          pragma: "no-cache"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Unable to fetch data. HTTP ${response.status}`);
+      }
+
+      const text = await response.text();
+      return parseCsv(text);
+    }
+
+    function toStatusClass(value) {
+      return normalize(value).replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") || "pending";
+    }
+
+    function looksLikeStatusValue(value) {
+      const s = normalize(value);
+      return (
+        s === "pending" ||
+        s === "approved" ||
+        s === "rejected" ||
+        s.includes("for approval") ||
+        s.includes("in review") ||
+        s.includes("complete")
+      );
+    }
+
+    function getStatusLikeValue(row) {
+      const keys = Object.keys(row);
+      if (!keys.length) {
+        return "";
+      }
+
+      const firstKey = keys[0];
+      const firstValue = row[firstKey] || "";
+      if (looksLikeStatusValue(firstValue)) {
+        return firstValue;
+      }
+
+      const preferred = keys.find((key) => {
+        const nk = normalize(key);
+        return nk === "approval status" || nk === "status";
+      });
+
+      if (preferred) {
+        return row[preferred] || "";
+      }
+
+      for (const key of keys) {
+        const nk = normalize(key);
+        if (nk.includes("status") || nk.includes("approval") || nk.includes("state") || nk.includes("action")) {
+          return row[key] || "";
+        }
+      }
+      return "";
+    }
+
+    function isApprovedStatus(statusValue) {
+      const s = normalize(statusValue);
+      return s.includes("approved") || s.includes("complete") || s.includes("completed") || s.includes("done");
+    }
+
+    function isRejectedStatus(statusValue) {
+      const s = normalize(statusValue);
+      return s.includes("reject") || s.includes("decline") || s.includes("disapprove") || s.includes("cancel");
+    }
+
+    function matchesStatusFilter(row, value) {
+      if (value === "all") return true;
+      const status = getStatusLikeValue(row);
+      if (value === "approved") return isApprovedStatus(status);
+      if (value === "rejected") return isRejectedStatus(status);
+      if (value === "pending") return !isApprovedStatus(status) && !isRejectedStatus(status);
+      return true;
+    }
+
+    function getByCandidates(row, candidates) {
+      const keys = Object.keys(row);
+      const map = new Map(keys.map((k) => [normalize(k), k]));
+      for (const candidate of candidates) {
+        const hit = map.get(normalize(candidate));
+        if (hit) return row[hit] || "";
+      }
+      return "";
+    }
+
+    function parseDateValue(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return 0;
+
+      const dmy = raw.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+      if (dmy) {
+        const day = Number(dmy[1]);
+        const month = Number(dmy[2]);
+        let year = Number(dmy[3]);
+        if (year < 100) year += 2000;
+        const hour = Number(dmy[4] || 0);
+        const minute = Number(dmy[5] || 0);
+        const second = Number(dmy[6] || 0);
+        const d = new Date(year, month - 1, day, hour, minute, second);
+        const ts = d.getTime();
+        return Number.isNaN(ts) ? 0 : ts;
+      }
+
+      const parsed = Date.parse(raw);
+      return Number.isNaN(parsed) ? 0 : parsed;
+    }
+
+    function getRowDateScore(row) {
+      const candidates = [
+        "Timestamp",
+        "Date",
+        "Date Submitted",
+        "Date Filed",
+        "Date Requested",
+        "Request Date",
+        "Date Created",
+        "Created At",
+        "Submitted At",
+        "Approval Date",
+        "Schedule Date",
+        "Outgoing",
+        "Date (dd/mm/yy)",
+        "Date  (dd/mm/yy)",
+        "Date of Email    (dd/mm/yy)"
+      ];
+      const value = getByCandidates(row, candidates);
+      return parseDateValue(value);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value).replace(/`/g, "&#96;");
+    }
+
+    function updateSummary(viewRows, sourceRows) {
+      const total = viewRows.length;
+      const approved = sourceRows.filter((row) => isApprovedStatus(getStatusLikeValue(row))).length;
+      const pending = sourceRows.filter((row) => !isApprovedStatus(getStatusLikeValue(row)) && !isRejectedStatus(getStatusLikeValue(row))).length;
+
+      document.getElementById("totalCount").textContent = String(total);
+      document.getElementById("approvedCount").textContent = String(approved);
+      document.getElementById("pendingCount").textContent = String(pending);
+    }
+
+    function buildTable(rows, forcedHeaders = []) {
+      const headers = rows.length ? Object.keys(rows[0]) : forcedHeaders;
+      if (!headers.length) {
+        tableContainer.innerHTML = '<div class="empty">No records found for the selected filters.</div>';
+        return;
+      }
+
+      const html = ["<table><thead><tr>"];
+      headers.forEach((h) => html.push(`<th>${escapeHtml(h)}</th>`));
+      html.push("</tr></thead><tbody>");
+
+      if (!rows.length) {
+        html.push(`<tr><td colspan="${headers.length}" data-label="Notice">No records yet.</td></tr>`);
+        html.push("</tbody></table>");
+        tableContainer.innerHTML = html.join("");
+        return;
+      }
+
+      rows.forEach((row) => {
+        html.push("<tr>");
+        const firstHeader = headers[0] || "";
+        headers.forEach((header) => {
+          const value = row[header] || "";
+          const safeValue = escapeHtml(value);
+          const safeHeader = escapeAttr(header);
+          const nk = normalize(header);
+          const isStatusCol =
+            nk.includes("status") ||
+            nk.includes("approval") ||
+            nk.includes("state") ||
+            (header === firstHeader && looksLikeStatusValue(value));
+
+          if (isStatusCol) {
+            html.push(`<td data-label="${safeHeader}"><span class="status ${toStatusClass(value)}">${escapeHtml(value || "Pending")}</span></td>`);
+          } else if (nk.includes("control") || nk.includes("number") || nk.includes("request no") || nk.includes("id")) {
+            html.push(`<td class="mono" data-label="${safeHeader}">${safeValue}</td>`);
+          } else {
+            html.push(`<td data-label="${safeHeader}">${safeValue}</td>`);
+          }
+        });
+        html.push("</tr>");
+      });
+
+      html.push("</tbody></table>");
+      tableContainer.innerHTML = html.join("");
+    }
+
+    function applyFilters() {
+      const keyword = normalize(searchInput.value);
+      const selectedStatus = normalize(statusFilter.value || "all");
+
+      filteredRows = allRows.filter((row) => {
+        const haystack = normalize(Object.values(row).join(" "));
+        return (!keyword || haystack.includes(keyword)) && matchesStatusFilter(row, selectedStatus);
+      });
+
+      filteredRows.sort((a, b) => {
+        const dateDiff = getRowDateScore(b) - getRowDateScore(a);
+        if (dateDiff !== 0) return dateDiff;
+        return (rowOrderMap.get(b) || 0) - (rowOrderMap.get(a) || 0);
+      });
+
+      updateSummary(filteredRows, allRows);
+      buildTable(filteredRows);
+    }
+
+    function showErrorState(error) {
+      if (!error || error.name === "AbortError") return;
+      errorMessage.textContent = error.message || "Unable to load data.";
+      errorMessage.style.display = "block";
+      tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
+    }
+
+    function getSheetEntry(sheetName) {
+      const key = normalize(sheetName);
+      const compact = normalizeKey(sheetName);
+      return sheetPageEntries.find((entry) => {
+        return (
+          normalize(entry.label) === key ||
+          normalize(entry.sourceName) === key ||
+          normalizeKey(entry.label) === compact ||
+          normalizeKey(entry.sourceName) === compact
+        );
+      });
+    }
+
+    async function loadData(options) {
+      const opts = options || {};
+      const showLoader = opts.showLoader !== false;
+      const liveEnabled = parseBooleanParam(getQueryParam("live"), true);
+      const refreshSeconds = parseRefreshSeconds();
+      const titleParam = getQueryParam("title");
+      const subtitleParam = getQueryParam("subtitle");
+
+      if (titleParam) {
+        document.getElementById("pageTitle").textContent = titleParam;
+      }
+
+      document.getElementById("pageSubtitle").textContent = subtitleParam || DEFAULT_SUBTITLE;
+      liveMeta.style.display = liveEnabled ? "inline-flex" : "none";
+      liveText.textContent = `Near real-time refresh every ${refreshSeconds}s`;
+
+      if (showLoader || !allRows.length) {
+        tableContainer.innerHTML = '<div class="loading">Loading data from Google Sheets...</div>';
+      }
+      errorMessage.style.display = "none";
+
+      if (activeLoadController) {
+        activeLoadController.abort();
+      }
+      activeLoadController = new AbortController();
+      const signal = activeLoadController.signal;
+
+      const sheetEntry = getSheetEntry(currentSheetName);
+      if (!sheetEntry || !sheetEntry.gid) {
+        throw new Error(`Sheet page "${currentSheetName}" was not found.`);
+      }
+
+      const rows = await fetchRowsFromUrl(buildCsvUrlByGid(sheetEntry.gid), signal);
+      if (!rows.length) {
+        if (!lastParsedHeaders.length) {
+          throw new Error("No rows found. Make sure the sheet is shared for web access and has a header row.");
+        }
+        allRows = [];
+        rowOrderMap = new WeakMap();
+        updateSummary([], []);
+        buildTable([], lastParsedHeaders);
+        return;
+      }
+
+      allRows = rows;
+      rowOrderMap = new WeakMap();
+      allRows.forEach((row, idx) => rowOrderMap.set(row, idx));
+      applyFilters();
+    }
+
+    function startPolling() {
+      const liveEnabled = parseBooleanParam(getQueryParam("live"), true);
+      if (!liveEnabled) return;
+
+      const refreshSeconds = parseRefreshSeconds();
+      if (pollTimerId) clearInterval(pollTimerId);
+      pollTimerId = window.setInterval(() => {
+        if (document.hidden) return;
+        loadData({ showLoader: false }).catch(showErrorState);
+      }, refreshSeconds * 1000);
+    }
+
+    async function init() {
+      sheetPageEntries = await fetchWorksheetEntries();
+      sheetPages = sheetPageEntries.map((entry) => entry.label);
+      if (!sheetPages.length) {
+        throw new Error("No worksheet pages discovered. Check if the sheet is published or shared correctly.");
+      }
+
+      currentSheetName = sheetPages[0];
+      await loadData({ showLoader: true });
+      startPolling();
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    statusFilter.addEventListener("change", applyFilters);
+    refreshButton.addEventListener("click", () => loadData({ showLoader: true }).catch(showErrorState));
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        loadData({ showLoader: false }).catch(showErrorState);
+      }
+    });
+
+    init().catch(showErrorState);
+  </script>
+</body>
+</html>
