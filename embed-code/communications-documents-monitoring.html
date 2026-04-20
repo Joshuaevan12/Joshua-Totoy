@@ -619,6 +619,8 @@
     let discoveredSheetPages = [];
     let sheetPageEntries = [];
     let rowOrderMap = new WeakMap();
+    let primaryStatusKey = "";
+    let primaryTableHeaders = [];
 
     const tableContainer = document.getElementById("tableContainer");
     const errorMessage = document.getElementById("errorMessage");
@@ -1114,6 +1116,10 @@
     }
 
     function getStatusLikeValue(row) {
+      if (primaryStatusKey && Object.prototype.hasOwnProperty.call(row, primaryStatusKey)) {
+        return row[primaryStatusKey] || "";
+      }
+
       const keys = Object.keys(row);
       for (const key of keys) {
         const nk = normalize(key);
@@ -1160,6 +1166,90 @@
         if (hit) return row[hit] || "";
       }
       return "";
+    }
+
+    function resolvePrimaryStatusKey(rows) {
+      if (!rows.length) {
+        return "";
+      }
+
+      const keys = Object.keys(rows[0]);
+      if (!keys.length) {
+        return "";
+      }
+
+      const scored = keys
+        .map((key) => {
+          const nk = normalize(key);
+          if (!nk.includes("status") && !nk.includes("state")) {
+            return { key, score: -1 };
+          }
+
+          let score = 10;
+          if (nk === "status of document") score = 100;
+          else if (nk.includes("status of document")) score = 90;
+          else if (nk === "status") score = 80;
+          else if (nk.includes("document") && nk.includes("status")) score = 70;
+          else if (nk.includes("status")) score = 60;
+          else if (nk.includes("state")) score = 50;
+
+          return { key, score };
+        })
+        .filter((entry) => entry.score >= 0)
+        .sort((a, b) => b.score - a.score);
+
+      return scored.length ? scored[0].key : "";
+    }
+
+    function resolvePrimaryTableHeaders(rows) {
+      if (!rows.length) {
+        return [];
+      }
+
+      const keys = Object.keys(rows[0]);
+      if (!keys.length) {
+        return [];
+      }
+
+      const firstDuplicateGroupIndex = keys.findIndex((key) => /\(\d+\)\s*$/i.test(String(key)));
+      return firstDuplicateGroupIndex > 0 ? keys.slice(0, firstDuplicateGroupIndex) : keys;
+    }
+
+    function getPrimarySubjectValue(row) {
+      if (!primaryTableHeaders.length) {
+        return "";
+      }
+
+      const subjectKey = primaryTableHeaders.find((header) => normalize(header).includes("subject"));
+      if (!subjectKey) {
+        return "";
+      }
+
+      return String(row[subjectKey] || "").trim();
+    }
+
+    function rowHasPrimaryTableData(row) {
+      if (!primaryTableHeaders.length) {
+        return true;
+      }
+
+      // Require subject so blank placeholder rows never render.
+      if (!getPrimarySubjectValue(row)) {
+        return false;
+      }
+
+      const meaningfulHeaders = primaryTableHeaders.filter((header) => {
+        const n = normalize(header);
+        if (primaryStatusKey && normalize(primaryStatusKey) === n) {
+          return false;
+        }
+        if (n.includes("no. of days in/pending") || n.includes("no of days in/pending") || n.includes("no. of days in pending") || n.includes("no of days in pending")) {
+          return false;
+        }
+        return !n.includes("status") && !n.includes("state");
+      });
+
+      return meaningfulHeaders.some((header) => String(row[header] || "").trim() !== "");
     }
 
     function getRowDateScore(row) {
@@ -1239,7 +1329,7 @@
         return;
       }
 
-      const headers = Object.keys(rows[0]);
+      const headers = primaryTableHeaders.length ? primaryTableHeaders : Object.keys(rows[0]);
       const html = ["<table><thead><tr>"];
       headers.forEach((h) => html.push(`<th>${escapeHtml(h)}</th>`));
       html.push("</tr></thead><tbody>");
@@ -1272,7 +1362,9 @@
       const keyword = normalize(searchInput.value);
       const statusFilterValue = normalize(statusPageFilter.value || "all");
 
-      filteredRows = allRows.filter((row) => {
+      const baseRows = allRows.filter((row) => rowHasPrimaryTableData(row));
+
+      filteredRows = baseRows.filter((row) => {
         const haystack = normalize(Object.values(row).join(" "));
         const keywordOk = !keyword || haystack.includes(keyword);
         const statusOk = matchesStatusFilter(row, statusFilterValue);
@@ -1287,7 +1379,7 @@
         return (rowOrderMap.get(b) || 0) - (rowOrderMap.get(a) || 0);
       });
 
-      updateSummary(filteredRows, allRows);
+      updateSummary(filteredRows, baseRows);
       buildTable(filteredRows);
     }
 
@@ -1371,6 +1463,8 @@
       }
 
       allRows = rows;
+      primaryStatusKey = resolvePrimaryStatusKey(allRows);
+      primaryTableHeaders = resolvePrimaryTableHeaders(allRows);
       rowOrderMap = new WeakMap();
       allRows.forEach((row, idx) => rowOrderMap.set(row, idx));
       applyFilters();
