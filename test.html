@@ -3,30 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Communications Documents Monitoring</title>
+  <title>Communications Request Form</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f4f1eb;
+      --bg: #f4f7fc;
       --surface: #ffffff;
-      --surface-alt: #faf7f1;
-      --text: #2f3a3f;
-      --muted: #6c6558;
-      --line: #d8d0c2;
-      --primary: #827153;
-      --primary-2: #9a8765;
-      --accent: #2f3a3f;
-      --accent-2: #4a565c;
-      --good-bg: #e8f4eb;
-      --good-text: #1c5f2f;
-      --warn-bg: #fff3d8;
-      --warn-text: #744b00;
-      --bad-bg: #fbe7e8;
-      --bad-text: #7a1d22;
+      --surface-alt: #f8fbff;
+      --text: #10233f;
+      --muted: #445a78;
+      --line: #d3deeb;
+      --primary: #0a2f66;
+      --primary-2: #123f85;
+      --accent: #f77f00;
+      --accent-2: #e27100;
       --radius: 12px;
-      --shadow: 0 8px 26px rgba(67, 58, 43, 0.16);
+      --shadow: 0 10px 28px rgba(10, 47, 102, 0.14);
     }
 
     * {
@@ -37,1416 +31,264 @@
     body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      min-height: 100%;
       background:
-        radial-gradient(circle at 10% 10%, rgba(130, 113, 83, 0.14), transparent 45%),
-        radial-gradient(circle at 80% 0%, rgba(47, 58, 63, 0.1), transparent 35%),
+        radial-gradient(circle at 10% 10%, rgba(247, 127, 0, 0.16), transparent 44%),
+        radial-gradient(circle at 85% 0%, rgba(10, 47, 102, 0.12), transparent 38%),
         var(--bg);
       color: var(--text);
       font-family: "Public Sans", "Segoe UI", Tahoma, sans-serif;
     }
 
-    .container {
-      min-height: 100vh;
-      height: auto;
-      width: 100%;
-    }
-
     .page {
+      width: 100%;
       max-width: 1280px;
       margin: 18px auto;
       padding: 14px;
-      width: min(1280px, 100%);
     }
 
-    .header {
-      background: linear-gradient(120deg, var(--primary), var(--primary-2));
+    .hero {
+      background: linear-gradient(118deg, #08254f, var(--primary), var(--primary-2));
       color: #fff;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 16px 18px;
+      padding: 18px;
     }
 
-    .header h1 {
+    .kicker {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.28px;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(247, 127, 0, 0.2);
+      border: 1px solid rgba(255, 177, 94, 0.75);
+      margin-bottom: 12px;
+    }
+
+    h1 {
       margin: 0;
-      font-size: clamp(1.02rem, 1.2vw + 0.72rem, 1.32rem);
+      font-size: clamp(1.12rem, 1.2vw + 0.78rem, 1.5rem);
       letter-spacing: 0.2px;
+      line-height: 1.2;
     }
 
-    .header p {
-      margin: 4px 0 0;
+    .subtitle {
+      margin: 6px 0 0;
+      font-size: clamp(0.88rem, 0.5vw + 0.76rem, 0.98rem);
       color: rgba(255, 255, 255, 0.92);
-      font-size: clamp(0.84rem, 0.5vw + 0.72rem, 0.95rem);
+      line-height: 1.55;
+      max-width: 900px;
     }
 
-    .meta {
-      margin-top: 8px;
-      display: inline-flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.82rem;
-      color: rgba(255, 255, 255, 0.95);
-      background: rgba(255, 255, 255, 0.16);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 999px;
-      padding: 5px 10px;
-    }
-
-    .meta-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #91e6af;
-      box-shadow: 0 0 0 0 rgba(145, 230, 175, 0.65);
-      animation: pulse 1.9s ease-out infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(145, 230, 175, 0.65);
-      }
-      70% {
-        box-shadow: 0 0 0 9px rgba(145, 230, 175, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(145, 230, 175, 0);
-      }
-    }
-
-    .controls {
+    .info-grid {
       margin-top: 12px;
       display: grid;
-      grid-template-columns: minmax(260px, 1fr) minmax(170px, 220px) auto;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
-      align-items: end;
+    }
+
+    .info-card {
       background: var(--surface);
       border: 1px solid var(--line);
+      border-top: 3px solid rgba(247, 127, 0, 0.7);
       border-radius: var(--radius);
-      padding: 12px;
-      box-shadow: var(--shadow);
+      padding: 12px 14px;
+      box-shadow: 0 2px 10px rgba(10, 47, 102, 0.09);
+      min-height: 84px;
     }
 
-    .control {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    label {
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.2px;
+    .info-label {
+      margin: 0 0 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
       text-transform: uppercase;
+      letter-spacing: 0.22px;
+      color: var(--muted);
     }
 
-    input,
-    select,
-    button {
-      height: 40px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      font: inherit;
-      padding: 0 10px;
+    .info-text {
+      margin: 0;
       color: var(--text);
-      background: #fff;
+      font-size: 0.94rem;
+      line-height: 1.55;
     }
 
-    button {
-      margin-top: auto;
-      min-width: 120px;
-      cursor: pointer;
-      font-weight: 700;
-      background: linear-gradient(120deg, var(--accent), var(--primary));
-      border: none;
-      color: #fff;
-    }
-
-    #refreshButton {
-      white-space: nowrap;
-    }
-
-    #statusPageFilter {
-      min-width: 0;
-    }
-
-    .stats {
+    .frame-shell {
       margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-top: 3px solid rgba(247, 127, 0, 0.72);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
-    .context-stats {
-      margin-top: 10px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(180px, 1fr));
-      gap: 10px;
-    }
-
-    .card {
+    .frame-header {
+      padding: 12px 14px;
       background: var(--surface-alt);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 10px 12px;
-      box-shadow: 0 2px 10px rgba(67, 58, 43, 0.1);
-      min-height: 72px;
-    }
-
-    .card.context {
-      background: #ffffff;
-      border-style: dashed;
-    }
-
-    .card .value {
-      font-size: 1.34rem;
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1.1;
-      word-break: break-word;
-    }
-
-    .card .label {
-      margin-top: 4px;
-      font-size: 0.84rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.2px;
-    }
-
-    .sheet-nav {
-      margin-top: 12px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 10px;
-    }
-
-    .sheet-nav-title {
-      margin: 0 0 8px;
-      color: var(--muted);
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-
-    .sheet-nav-row {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 8px;
-      align-items: center;
-      min-width: 0;
-    }
-
-    .sheet-scroll-btn {
-      width: 36px;
-      min-width: 36px;
-      height: 36px;
-      border-radius: 999px;
-      border: 1px solid #c6bcab;
-      background: linear-gradient(180deg, #ffffff, #f2ede4);
-      color: var(--accent);
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .sheet-list {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 8px;
-      min-width: 0;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 2px 4px 4px;
-      scroll-behavior: smooth;
-    }
-
-    .sheet-chip {
-      flex: 0 0 auto;
-      border: 1px solid #c6bcab;
-      background: linear-gradient(180deg, #ffffff, #f7f2ea);
-      color: var(--accent);
-      border-radius: 999px;
-      height: 34px;
-      padding: 0 12px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    .sheet-chip:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 3px 10px rgba(67, 58, 43, 0.2);
-    }
-
-    .sheet-chip.active {
-      background: linear-gradient(120deg, var(--accent), var(--primary));
-      border-color: var(--accent);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(47, 58, 63, 0.3);
-    }
-
-    .table-wrap {
-      margin-top: 12px;
-      border-radius: var(--radius);
-      overflow: auto;
-      border: 1px solid var(--line);
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      max-height: min(68vh, 760px);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 950px;
-    }
-
-    thead th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      background: var(--accent);
-      color: #fff;
-      text-align: center;
-      font-size: 0.84rem;
-      padding: 10px;
-      border-bottom: 2px solid var(--accent-2);
-      white-space: nowrap;
-    }
-
-    tbody td {
-      padding: 8px 10px;
       border-bottom: 1px solid var(--line);
-      vertical-align: middle;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .frame-header strong {
+      color: var(--primary);
       font-size: 0.92rem;
     }
 
-    tbody tr:nth-child(odd) {
-      background: #fdfbf8;
-    }
-
-    tbody tr:hover {
-      background: #f2ede4;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 90px;
-      border-radius: 999px;
-      padding: 3px 10px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .status.complete,
-    .status.completed,
-    .status.done,
-    .status.closed {
-      background: var(--good-bg);
-      color: var(--good-text);
-    }
-
-    .status.pending,
-    .status.processing,
-    .status.review,
-    .status.in-progress {
-      background: var(--warn-bg);
-      color: var(--warn-text);
-    }
-
-    .status.overdue,
-    .status.rejected,
-    .status.failed {
-      background: var(--bad-bg);
-      color: var(--bad-text);
-    }
-
-    .mono {
-      font-family: Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.88rem;
-    }
-
-    .empty,
-    .error,
-    .loading {
-      padding: 18px;
-      text-align: center;
+    .frame-note {
       color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.4;
     }
 
-    .error {
-      color: var(--bad-text);
-      background: #fff1f2;
-      border: 1px solid #efc2c5;
-      border-radius: 10px;
-      margin-top: 10px;
+    .frame-wrap {
+      position: relative;
+      width: 100%;
+      min-height: clamp(1020px, 86vh, 1500px);
+      background: #fff;
     }
 
-    @media (max-width: 1024px) {
-      .controls {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      #refreshButton {
-        grid-column: 1 / -1;
-        width: 100%;
-      }
+    iframe {
+      display: block;
+      width: 100%;
+      min-height: clamp(1020px, 86vh, 1500px);
+      border: 0;
+      background: #fff;
     }
 
-    @media (max-width: 980px) {
-      .controls {
-        grid-template-columns: 1fr 1fr;
-      }
+    .embed-snippet {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
 
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      text-align: center;
+    }
 
-      .context-stats {
+    @media (max-width: 900px) {
+      .info-grid {
         grid-template-columns: 1fr;
       }
 
-      #refreshButton {
-        grid-column: 1 / -1;
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 760px) {
       .page {
         padding: 10px;
       }
 
-      .sheet-nav-row {
-        grid-template-columns: 32px 1fr 32px;
+      .hero {
+        padding: 16px;
       }
 
-      .sheet-scroll-btn {
-        width: 32px;
-        min-width: 32px;
-        height: 32px;
+      .frame-wrap,
+      iframe {
+        min-height: 1180px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        margin: 0 auto;
+        padding: 10px;
       }
 
-      .sheet-chip {
-        height: 32px;
-        padding: 0 10px;
-        font-size: 0.78rem;
+      .hero {
+        border-radius: 10px;
       }
 
-      .controls {
-        grid-template-columns: 1fr;
+      .info-card {
+        padding: 10px 12px;
       }
 
-      #refreshButton {
-        grid-column: auto;
+      .frame-header {
+        padding: 10px 12px;
       }
 
-      .table-wrap {
-        max-height: none;
-        overflow: visible;
-      }
-
-      table {
-        min-width: 0;
-      }
-
-      thead {
-        display: none;
-      }
-
-      tbody,
-      tr,
-      td {
-        display: block;
-        width: 100%;
-      }
-
-      tbody tr {
-        border-bottom: 1px solid var(--line);
-        padding: 8px 10px;
-      }
-
-      tbody tr:nth-child(odd),
-      tbody tr:hover {
-        background: transparent;
-      }
-
-      tbody td {
-        border-bottom: none;
-        display: grid;
-        grid-template-columns: minmax(120px, 42%) 1fr;
-        gap: 8px;
-        align-items: start;
-        padding: 4px 0;
-      }
-
-      tbody td::before {
-        content: attr(data-label);
-        color: var(--muted);
-        font-size: 0.78rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.2px;
-        padding-top: 2px;
-      }
-
-      tbody td .status {
-        justify-self: start;
-      }
-
-      .mono {
-        word-break: break-word;
+      .frame-wrap,
+      iframe {
+        min-height: 1320px;
       }
     }
 
     @media (max-width: 420px) {
-      .stats,
-      .controls {
-        grid-template-columns: 1fr;
+      .page {
+        padding: 8px;
+      }
+
+      .hero {
+        padding: 14px;
+      }
+
+      h1 {
+        font-size: 1rem;
+      }
+
+      .subtitle {
+        font-size: 0.82rem;
       }
     }
   </style>
 </head>
 <body>
-  <main class="page container">
-    <section class="header">
-      <h1 id="pageTitle">Communications Documents Monitoring</h1>
-      <p id="pageSubtitle">Operational status dashboard for communications documents monitoring.</p>
-      <div class="meta" id="liveMeta" style="display: none">
-        <span class="meta-dot" aria-hidden="true"></span>
-        <span id="liveText">Auto-refresh is active</span>
+  <main class="page">
+    <section class="hero" aria-label="Form introduction">
+      <span class="kicker">Government Service Request</span>
+      <h1>Request for Approval WorkSchedule</h1>
+      <p class="subtitle">
+        Use this form to submit a request with the required scanned copy for processing.
+        The layout is optimized for Google Sites and designed to remain readable and responsive on desktop, tablet, and mobile devices.
+      </p>
+    </section>
+
+    <section class="info-grid" aria-label="Instructions summary">
+      <article class="info-card">
+        <p class="info-label">Before submitting</p>
+        <p class="info-text">Prepare the scanned document and make sure the file is clear, complete, and ready to upload.</p>
+      </article>
+      <article class="info-card">
+        <p class="info-label">Submission process</p>
+        <p class="info-text">Fill out the form below, attach the scanned copy, and submit the request for review.</p>
+      </article>
+      <article class="info-card">
+        <p class="info-label">Review process</p>
+        <p class="info-text">The admin will receive the request for approval and respond based on the workflow configured in Google Apps Script.</p>
+      </article>
+    </section>
+
+    <section class="frame-shell" aria-label="Request form">
+      <div class="frame-header">
+        <strong>WORKSCHEDULE APPROVAL</strong>
+        <span class="frame-note">This is the live Google Form embed. Users can sign in, upload files, and submit directly inside the page.</span>
+      </div>
+      <div class="frame-wrap">
+        <iframe
+          title="Workschedule Approval Google Form"
+          src="https://docs.google.com/forms/d/e/1FAIpQLSe3MbKEJQjsI0QONJBtCo7dxHKlsma0Y5WMDpf8dPsvfcZWsQ/viewform?embedded=true"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
       </div>
     </section>
 
-    <section class="controls" aria-label="Filters and actions">
-      <div class="control">
-        <label for="searchInput">Search</label>
-        <input id="searchInput" type="search" placeholder="Search control number, subject, office, staff..." />
-      </div>
-      <div class="control">
-        <label for="statusPageFilter">Status Filter</label>
-        <select id="statusPageFilter">
-          <option value="all">All</option>
-          <option value="complete">Complete</option>
-          <option value="pending">Pending</option>
-        </select>
-      </div>
-      <button id="refreshButton" type="button">Refresh Data</button>
-    </section>
-
-    <section class="stats" aria-label="Quick summary cards">
-      <article class="card">
-        <div class="value" id="totalCount">0</div>
-        <div class="label">Total Records</div>
-      </article>
-      <article class="card">
-        <div class="value" id="completeCount">0</div>
-        <div class="label">Complete</div>
-      </article>
-      <article class="card">
-        <div class="value" id="pendingCount">0</div>
-        <div class="label">Pending</div>
-      </article>
-    </section>
-
-    <section class="context-stats" aria-label="Page context metrics">
-      <article class="card context">
-        <div class="value" id="pagesCount">0</div>
-        <div class="label">Document Pages</div>
-      </article>
-      <article class="card context">
-        <div class="value" id="activePage">-</div>
-        <div class="label">Current Page</div>
-      </article>
-      <article class="card context">
-        <div class="value" id="lastUpdated">-</div>
-        <div class="label">Last Updated</div>
-      </article>
-    </section>
-
-    <section class="sheet-nav" aria-label="Sheet page selector">
-      <p class="sheet-nav-title">Document Pages</p>
-      <div class="sheet-nav-row">
-        <button id="sheetScrollLeft" class="sheet-scroll-btn" type="button" aria-label="Scroll pages left">&#8249;</button>
-        <div class="sheet-list" id="sheetTabs"></div>
-        <button id="sheetScrollRight" class="sheet-scroll-btn" type="button" aria-label="Scroll pages right">&#8250;</button>
-      </div>
-    </section>
-
-    <section class="table-wrap" aria-label="Records table">
-      <div id="tableContainer" class="loading">Loading data from Google Sheets...</div>
-    </section>
-
-    <div id="errorMessage" class="error" style="display: none"></div>
+    <p class="footer-note">
+      This page uses the real Google Form, so the Google sign-in, file upload, and submission flow remain native to Google Forms.
+    </p>
   </main>
-
-  <script>
-    const DEFAULT_CSV_URL = "";
-    const DEFAULT_SPREADSHEET_ID = "1ocGPYt-sWWkW6-4RWkZAq6dxl1jtaUTcH_svy04SymY";
-    const FALLBACK_SHEET_PAGES = [
-      "INCOMING / OUTGOING",
-      "EMAIL MONITORING",
-      "SOCIAL MEDIA",
-      "SOCIAL MEDIA CONTENT SCHEDULE",
-      "MEMO",
-      "LETTER",
-      "LETTERS"
-    ];
-    const DEFAULT_REFRESH_SECONDS = 60;
-    const MIN_REFRESH_SECONDS = 5;
-    const DEFAULT_SUBTITLE = "Operational status dashboard for communications documents monitoring.";
-
-    let allRows = [];
-    let filteredRows = [];
-    let pollTimerId = null;
-    let currentSheetName = "";
-    let activeLoadController = null;
-    let sheetPages = [...FALLBACK_SHEET_PAGES];
-    let discoveredSheetPages = [];
-    let sheetPageEntries = [];
-    let rowOrderMap = new WeakMap();
-
-    const tableContainer = document.getElementById("tableContainer");
-    const errorMessage = document.getElementById("errorMessage");
-    const searchInput = document.getElementById("searchInput");
-    const statusPageFilter = document.getElementById("statusPageFilter");
-    const refreshButton = document.getElementById("refreshButton");
-    const liveMeta = document.getElementById("liveMeta");
-    const liveText = document.getElementById("liveText");
-    const sheetTabs = document.getElementById("sheetTabs");
-    const sheetScrollLeft = document.getElementById("sheetScrollLeft");
-    const sheetScrollRight = document.getElementById("sheetScrollRight");
-
-    function getQueryParam(name) {
-      return new URLSearchParams(window.location.search).get(name);
-    }
-
-    function normalize(text) {
-      return (text || "").toString().trim().toLowerCase();
-    }
-
-    function parseBooleanParam(value, defaultValue = true) {
-      if (value == null) return defaultValue;
-      const v = normalize(value);
-      if (v === "0" || v === "false" || v === "off" || v === "no") return false;
-      if (v === "1" || v === "true" || v === "on" || v === "yes") return true;
-      return defaultValue;
-    }
-
-    function parseRefreshSeconds() {
-      const refreshParam = getQueryParam("refreshSeconds");
-      if (!refreshParam) {
-        return DEFAULT_REFRESH_SECONDS;
-      }
-      const n = Number.parseInt(refreshParam, 10);
-      if (Number.isNaN(n)) {
-        return DEFAULT_REFRESH_SECONDS;
-      }
-      return Math.max(MIN_REFRESH_SECONDS, n);
-    }
-
-    function buildSheetCsvUrl(sheetName) {
-      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-    }
-
-    function buildSheetCsvUrlByGid(gid) {
-      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=${encodeURIComponent(String(gid))}`;
-    }
-
-    function buildBaseCsvUrl() {
-      return `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/gviz/tq?tqx=out:csv`;
-    }
-
-    function buildNoCacheUrl(rawUrl) {
-      const url = new URL(rawUrl);
-      url.searchParams.set("_ts", Date.now().toString());
-      return url.toString();
-    }
-
-    function decodeJsString(value) {
-      return String(value || "")
-        .replace(/\\x([0-9a-fA-F]{2})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
-        .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
-        .replace(/\\\//g, "/")
-        .replace(/\\"/g, '"')
-        .replace(/\\'/g, "'")
-        .replace(/\\n/g, "\n")
-        .replace(/\\r/g, "\r")
-        .replace(/\\t/g, "\t")
-        .replace(/\\\\/g, "\\");
-    }
-
-    function getValidSheetName(value) {
-      const hit = sheetPages.find((name) => normalize(name) === normalize(value || ""));
-      return hit || sheetPages[0];
-    }
-
-    function getSheetPagesFromQuery() {
-      const raw = getQueryParam("sheetPages");
-      if (!raw) {
-        return [];
-      }
-
-      return raw
-        .split("|")
-        .map((name) => name.trim())
-        .filter(Boolean);
-    }
-
-    async function fetchWorksheetTitles() {
-      const feedUrl = `https://spreadsheets.google.com/feeds/worksheets/${DEFAULT_SPREADSHEET_ID}/public/basic?alt=json`;
-      const response = await fetch(buildNoCacheUrl(feedUrl), {
-        cache: "no-store",
-        headers: {
-          "cache-control": "no-cache",
-          pragma: "no-cache"
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Unable to discover sheet pages. HTTP ${response.status}`);
-      }
-
-      const payload = await response.json();
-      const entries = payload && payload.feed && Array.isArray(payload.feed.entry) ? payload.feed.entry : [];
-      return entries
-        .map((entry) => (entry && entry.title && entry.title.$t ? String(entry.title.$t).trim() : ""))
-        .filter(Boolean);
-    }
-
-    async function fetchWorksheetEntriesFromHtmlview() {
-      const htmlUrl = `https://docs.google.com/spreadsheets/d/${DEFAULT_SPREADSHEET_ID}/htmlview`;
-      const response = await fetch(buildNoCacheUrl(htmlUrl), {
-        cache: "no-store",
-        headers: {
-          "cache-control": "no-cache",
-          pragma: "no-cache"
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Unable to discover sheet pages. HTTP ${response.status}`);
-      }
-
-      const html = await response.text();
-      const pattern = /items\.push\(\{name:\s*"((?:\\.|[^"])*)"[\s\S]*?gid:\s*"(-?\d+)"/g;
-      const entries = [];
-      let match;
-
-      while ((match = pattern.exec(html)) !== null) {
-        const rawName = decodeJsString(match[1]);
-        const gid = String(match[2] || "").trim();
-        const label = rawName.trim();
-        if (!label || !gid) {
-          continue;
-        }
-        entries.push({ label, sourceName: rawName, gid });
-      }
-
-      const seen = new Set();
-      return entries.filter((entry) => {
-        const key = `${normalize(entry.label)}|${entry.gid}`;
-        if (seen.has(key)) {
-          return false;
-        }
-        seen.add(key);
-        return true;
-      });
-    }
-
-    function normalizeSheetKey(name) {
-      return normalize(name).replace(/[^a-z0-9]/g, "");
-    }
-
-    function buildSheetNameCandidates(name) {
-      const source = String(name || "").trim();
-      if (!source) {
-        return [];
-      }
-
-      const variants = new Set([
-        source,
-        source.replace(/\s*\/\s*/g, " / "),
-        source.replace(/\s*\/\s*/g, "/"),
-        source.replace(/\s+/g, " "),
-        source.replace(/&/g, "AND"),
-        source.replace(/\bAND\b/g, "&"),
-        source.replace(/\bLETTERS\b/gi, "LETTER"),
-        source.replace(/\bLETTER\b/gi, "LETTERS")
-      ]);
-
-      return Array.from(variants).filter(Boolean);
-    }
-
-    function findSheetEntry(sheetName) {
-      const key = normalize(sheetName);
-      const compactKey = normalizeSheetKey(sheetName);
-      return sheetPageEntries.find((entry) => {
-        return (
-          normalize(entry.label) === key ||
-          normalize(entry.sourceName) === key ||
-          normalizeSheetKey(entry.label) === compactKey ||
-          normalizeSheetKey(entry.sourceName) === compactKey
-        );
-      });
-    }
-
-    async function fetchRowsForSheetName(sheetName, signal) {
-      const mappedEntry = findSheetEntry(sheetName);
-      if (mappedEntry && mappedEntry.gid) {
-        const rows = await fetchRowsFromUrl(buildSheetCsvUrlByGid(mappedEntry.gid), signal);
-        return { rows, resolvedSheetName: mappedEntry.label };
-      }
-
-      const sourcePages = discoveredSheetPages.length ? discoveredSheetPages : sheetPages;
-      const exactHit = sourcePages.find((name) => normalize(name) === normalize(sheetName));
-      const normalizedHit = sourcePages.find((name) => normalizeSheetKey(name) === normalizeSheetKey(sheetName));
-
-      const orderedCandidates = [
-        exactHit,
-        normalizedHit,
-        ...buildSheetNameCandidates(sheetName)
-      ].filter(Boolean);
-
-      const resolvedSeen = new Set();
-      const resolvedSheetNames = orderedCandidates
-        .map((candidate) => {
-          const key = normalizeSheetKey(candidate);
-          return sourcePages.find((name) => normalizeSheetKey(name) === key) || "";
-        })
-        .filter(Boolean)
-        .filter((name) => {
-          const key = normalize(name);
-          if (resolvedSeen.has(key)) {
-            return false;
-          }
-          resolvedSeen.add(key);
-          return true;
-        });
-
-      if (!resolvedSheetNames.length && discoveredSheetPages.length) {
-        throw new Error(`Sheet page "${sheetName}" was not found in the spreadsheet.`);
-      }
-
-      const candidateSeen = new Set();
-      const uniqueCandidates = (resolvedSheetNames.length ? resolvedSheetNames : orderedCandidates).filter((name) => {
-        const key = normalize(name);
-        if (candidateSeen.has(key)) {
-          return false;
-        }
-        candidateSeen.add(key);
-        return true;
-      });
-
-      let lastError = null;
-
-      for (const candidate of uniqueCandidates) {
-        try {
-          const rows = await fetchRowsFromUrl(buildSheetCsvUrl(candidate), signal);
-          return { rows, resolvedSheetName: candidate };
-        } catch (error) {
-          lastError = error;
-        }
-      }
-
-      if (lastError) {
-        throw lastError;
-      }
-
-      throw new Error("Unable to load the selected sheet page.");
-    }
-
-    async function initializeSheetPages() {
-      const queryPages = getSheetPagesFromQuery();
-      if (queryPages.length) {
-        sheetPages = queryPages;
-        discoveredSheetPages = [];
-        sheetPageEntries = queryPages.map((name) => ({ label: name, sourceName: name, gid: "" }));
-        return;
-      }
-
-      try {
-        const discoveredEntries = await fetchWorksheetEntriesFromHtmlview();
-        if (discoveredEntries.length) {
-          sheetPageEntries = discoveredEntries;
-          discoveredSheetPages = discoveredEntries.map((entry) => entry.sourceName);
-          sheetPages = discoveredEntries.map((entry) => entry.label);
-          return;
-        }
-      } catch (_) {
-        // Continue with other discovery modes.
-      }
-
-      try {
-        const discoveredPages = await fetchWorksheetTitles();
-        if (discoveredPages.length) {
-          sheetPageEntries = discoveredPages.map((name) => ({ label: name.trim(), sourceName: name, gid: "" }));
-          discoveredSheetPages = discoveredPages;
-          sheetPages = sheetPageEntries.map((entry) => entry.label);
-          return;
-        }
-      } catch (_) {
-        // Keep fallback pages when worksheet discovery is unavailable.
-      }
-
-      discoveredSheetPages = [];
-      sheetPages = [...FALLBACK_SHEET_PAGES];
-      sheetPageEntries = FALLBACK_SHEET_PAGES.map((name) => ({ label: name, sourceName: name, gid: "" }));
-    }
-
-    function updateSheetQueryParam(sheetName) {
-      const url = new URL(window.location.href);
-      url.searchParams.set("sheet", sheetName);
-      window.history.replaceState({}, "", url.toString());
-    }
-
-    function setActiveSheetChip() {
-      const chips = sheetTabs.querySelectorAll("button.sheet-chip");
-      chips.forEach((chip) => {
-        if (normalize(chip.dataset.sheetName) === normalize(currentSheetName)) {
-          chip.classList.add("active");
-        } else {
-          chip.classList.remove("active");
-        }
-      });
-    }
-
-    function scrollSheetTabs(direction) {
-      sheetTabs.scrollBy({ left: direction * 320, behavior: "smooth" });
-    }
-
-    function renderSheetTabs() {
-      const csvParam = getQueryParam("csv");
-      if (csvParam) {
-        sheetTabs.innerHTML = "";
-        const note = document.createElement("div");
-        note.className = "empty";
-        note.style.padding = "4px 2px";
-        note.textContent = "Custom CSV mode is active from the embed URL.";
-        sheetTabs.appendChild(note);
-        return;
-      }
-
-      sheetTabs.innerHTML = "";
-      sheetPages.forEach((name) => {
-        const chip = document.createElement("button");
-        chip.type = "button";
-        chip.className = "sheet-chip";
-        chip.textContent = name;
-        chip.dataset.sheetName = name;
-        chip.addEventListener("click", () => {
-          if (normalize(currentSheetName) === normalize(name)) {
-            return;
-          }
-          currentSheetName = name;
-          updateSheetQueryParam(currentSheetName);
-          setActiveSheetChip();
-          loadData({ showLoader: true }).catch((error) => {
-            if (error.name === "AbortError") {
-              return;
-            }
-            errorMessage.textContent = error.message;
-            errorMessage.style.display = "block";
-            tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
-          });
-        });
-        sheetTabs.appendChild(chip);
-      });
-      setActiveSheetChip();
-    }
-
-    function getHeaderRowFromQuery() {
-      const headerRowParam = getQueryParam("headerRow");
-      if (!headerRowParam) {
-        return null;
-      }
-      const n = Number.parseInt(headerRowParam, 10);
-      if (Number.isNaN(n) || n < 1) {
-        return null;
-      }
-      return n - 1;
-    }
-
-    function detectHeaderRowIndex(rows) {
-      const explicitHeaderIndex = getHeaderRowFromQuery();
-      if (explicitHeaderIndex !== null) {
-        return Math.min(explicitHeaderIndex, Math.max(rows.length - 1, 0));
-      }
-
-      const maxScan = Math.min(rows.length, 8);
-      let bestIndex = 0;
-      let bestScore = -1;
-
-      for (let i = 0; i < maxScan; i += 1) {
-        const r = rows[i] || [];
-        const nonEmpty = r.filter((cell) => (cell || "").trim() !== "");
-        const unique = new Set(nonEmpty.map((cell) => normalize(cell))).size;
-        const score = nonEmpty.length * 2 + unique;
-        if (score > bestScore) {
-          bestScore = score;
-          bestIndex = i;
-        }
-      }
-
-      return bestIndex;
-    }
-
-    function buildHeaders(rawHeader) {
-      const seen = new Map();
-      return rawHeader.map((cell) => {
-        const baseName = (cell || "").trim();
-        if (!baseName) {
-          return "";
-        }
-        const key = normalize(baseName);
-        const count = seen.get(key) || 0;
-        seen.set(key, count + 1);
-        if (count === 0) {
-          return baseName;
-        }
-        return `${baseName} (${count + 1})`;
-      });
-    }
-
-    function pruneUnwantedColumns(headers, dataRows) {
-      const keepIndexes = headers
-        .map((header, idx) => {
-          if (!header) {
-            return -1;
-          }
-          const isSynthetic = /^column\s+\d+(\s*\(\d+\))?$/i.test(header);
-          if (isSynthetic) {
-            return -1;
-          }
-          return idx;
-        })
-        .filter((idx) => idx >= 0);
-
-      if (!keepIndexes.length) {
-        return { headers: [], dataRows: [] };
-      }
-
-      return {
-        headers: keepIndexes.map((idx) => headers[idx]),
-        dataRows: dataRows.map((row) => keepIndexes.map((idx) => row[idx] || ""))
-      };
-    }
-
-    function parseCsv(csvText) {
-      const rows = [];
-      let row = [];
-      let value = "";
-      let inQuotes = false;
-
-      for (let i = 0; i < csvText.length; i += 1) {
-        const char = csvText[i];
-        const next = csvText[i + 1];
-
-        if (char === '"') {
-          if (inQuotes && next === '"') {
-            value += '"';
-            i += 1;
-          } else {
-            inQuotes = !inQuotes;
-          }
-        } else if (char === "," && !inQuotes) {
-          row.push(value);
-          value = "";
-        } else if ((char === "\n" || char === "\r") && !inQuotes) {
-          if (char === "\r" && next === "\n") {
-            i += 1;
-          }
-          row.push(value);
-          value = "";
-          if (row.length > 1 || row[0]) {
-            rows.push(row);
-          }
-          row = [];
-        } else {
-          value += char;
-        }
-      }
-
-      if (value.length > 0 || row.length > 0) {
-        row.push(value);
-        rows.push(row);
-      }
-
-      if (rows.length === 0) {
-        return [];
-      }
-
-      const headerRowIndex = detectHeaderRowIndex(rows);
-      const headers = buildHeaders(rows[headerRowIndex] || []);
-      const dataRows = rows.slice(headerRowIndex + 1).filter((r) => r.some((cell) => (cell || "").trim() !== ""));
-      const compact = pruneUnwantedColumns(headers, dataRows);
-
-      if (!compact.headers.length) {
-        return [];
-      }
-
-      return compact.dataRows.map((r) => {
-        const record = {};
-        compact.headers.forEach((h, idx) => {
-          record[h] = (r[idx] || "").trim();
-        });
-        return record;
-      });
-    }
-
-    function toStatusClass(value) {
-      const v = normalize(value).replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
-      return v || "pending";
-    }
-
-    function getStatusLikeValue(row) {
-      const keys = Object.keys(row);
-      for (const key of keys) {
-        const nk = normalize(key);
-        if (nk.includes("status") || nk.includes("state")) {
-          return row[key] || "";
-        }
-      }
-      return "";
-    }
-
-    function isCompleteStatus(statusValue) {
-      const normalized = normalize(statusValue);
-      return (
-        normalized.includes("complete") ||
-        normalized.includes("completed") ||
-        normalized.includes("done") ||
-        normalized.includes("closed")
-      );
-    }
-
-    function matchesStatusFilter(row, filterValue) {
-      if (filterValue === "all") {
-        return true;
-      }
-
-      const statusValue = getStatusLikeValue(row);
-
-      if (filterValue === "complete") {
-        return isCompleteStatus(statusValue);
-      }
-
-      if (filterValue === "pending") {
-        return !isCompleteStatus(statusValue);
-      }
-
-      return true;
-    }
-
-    function getByCandidates(row, candidates) {
-      const keys = Object.keys(row);
-      const normalizedMap = new Map(keys.map((k) => [normalize(k), k]));
-      for (const candidate of candidates) {
-        const hit = normalizedMap.get(normalize(candidate));
-        if (hit) return row[hit] || "";
-      }
-      return "";
-    }
-
-    function getRowDateScore(row) {
-      const candidates = [
-        "Timestamp",
-        "Date Submitted",
-        "Date Created",
-        "Date",
-        "Created At",
-        "Received Date",
-        "Submitted At",
-        "Submission Date"
-      ];
-
-      const value = getByCandidates(row, candidates);
-      if (!value) {
-        return 0;
-      }
-
-      return parseDateValue(value);
-    }
-
-    function parseDateValue(value) {
-      const raw = String(value || "").trim();
-      if (!raw) {
-        return 0;
-      }
-
-      const dmyMatch = raw.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
-      if (dmyMatch) {
-        const day = Number(dmyMatch[1]);
-        const month = Number(dmyMatch[2]);
-        let year = Number(dmyMatch[3]);
-        if (year < 100) {
-          year += 2000;
-        }
-        const hour = Number(dmyMatch[4] || 0);
-        const minute = Number(dmyMatch[5] || 0);
-        const second = Number(dmyMatch[6] || 0);
-        const date = new Date(year, month - 1, day, hour, minute, second);
-        const timestamp = date.getTime();
-        return Number.isNaN(timestamp) ? 0 : timestamp;
-      }
-
-      const parsed = Date.parse(raw);
-      return Number.isNaN(parsed) ? 0 : parsed;
-    }
-
-    function escapeHtml(value) {
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
-
-    function escapeAttr(value) {
-      return escapeHtml(value).replace(/`/g, "&#96;");
-    }
-
-    function updateSummary(rows, sourceRows = rows) {
-      const total = rows.length;
-      const complete = sourceRows.filter((row) => isCompleteStatus(getStatusLikeValue(row))).length;
-      const pending = sourceRows.length - complete;
-      document.getElementById("totalCount").textContent = String(total);
-      document.getElementById("completeCount").textContent = String(complete);
-      document.getElementById("pendingCount").textContent = String(pending);
-      document.getElementById("pagesCount").textContent = String(sheetPages.length);
-      document.getElementById("activePage").textContent = currentSheetName || "-";
-      document.getElementById("lastUpdated").textContent = new Date().toLocaleString();
-    }
-
-    function buildTable(rows) {
-      if (!rows.length) {
-        tableContainer.innerHTML = '<div class="empty">No records found for the selected filters.</div>';
-        return;
-      }
-
-      const headers = Object.keys(rows[0]);
-      const html = ["<table><thead><tr>"];
-      headers.forEach((h) => html.push(`<th>${escapeHtml(h)}</th>`));
-      html.push("</tr></thead><tbody>");
-
-      rows.forEach((row) => {
-        html.push("<tr>");
-        headers.forEach((header) => {
-          const value = row[header] || "";
-          const safeValue = escapeHtml(value);
-          const safeHeader = escapeAttr(header);
-          const normHeader = normalize(header);
-          if (normHeader.includes("status")) {
-            html.push(
-              `<td data-label="${safeHeader}"><span class="status ${toStatusClass(value)}">${escapeHtml(value || "Pending")}</span></td>`
-            );
-          } else if (normHeader.includes("control") || normHeader.includes("number")) {
-            html.push(`<td class="mono" data-label="${safeHeader}">${safeValue}</td>`);
-          } else {
-            html.push(`<td data-label="${safeHeader}">${safeValue}</td>`);
-          }
-        });
-        html.push("</tr>");
-      });
-
-      html.push("</tbody></table>");
-      tableContainer.innerHTML = html.join("");
-    }
-
-    function applyFilters() {
-      const keyword = normalize(searchInput.value);
-      const statusFilterValue = normalize(statusPageFilter.value || "all");
-
-      filteredRows = allRows.filter((row) => {
-        const haystack = normalize(Object.values(row).join(" "));
-        const keywordOk = !keyword || haystack.includes(keyword);
-        const statusOk = matchesStatusFilter(row, statusFilterValue);
-        return keywordOk && statusOk;
-      });
-
-      filteredRows.sort((a, b) => {
-        const dateDiff = getRowDateScore(b) - getRowDateScore(a);
-        if (dateDiff !== 0) {
-          return dateDiff;
-        }
-        return (rowOrderMap.get(b) || 0) - (rowOrderMap.get(a) || 0);
-      });
-
-      updateSummary(filteredRows, allRows);
-      buildTable(filteredRows);
-    }
-
-    async function fetchRowsFromUrl(rawUrl, signal) {
-      const response = await fetch(buildNoCacheUrl(rawUrl), {
-        cache: "no-store",
-        signal,
-        headers: {
-          "cache-control": "no-cache",
-          pragma: "no-cache"
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Unable to fetch data. HTTP ${response.status}`);
-      }
-
-      const text = await response.text();
-      return parseCsv(text);
-    }
-
-    async function loadData(options = {}) {
-      const { showLoader = true } = options;
-      const csvParam = getQueryParam("csv");
-      const sheetParam = getQueryParam("sheet");
-      const titleParam = getQueryParam("title");
-      const subtitleParam = getQueryParam("subtitle");
-      const liveEnabled = parseBooleanParam(getQueryParam("live"), true);
-      const refreshSeconds = parseRefreshSeconds();
-
-      if (!csvParam) {
-        currentSheetName = getValidSheetName(sheetParam || currentSheetName || sheetPages[0]);
-      }
-
-      if (titleParam) {
-        document.getElementById("pageTitle").textContent = titleParam;
-      }
-
-      const subtitleBase = subtitleParam || DEFAULT_SUBTITLE;
-      document.getElementById("pageSubtitle").textContent = csvParam
-        ? subtitleBase
-        : `${subtitleBase} | Page: ${currentSheetName}`;
-
-      if (liveEnabled) {
-        liveMeta.style.display = "inline-flex";
-        liveText.textContent = `Near real-time refresh every ${refreshSeconds}s`;
-      } else {
-        liveMeta.style.display = "none";
-      }
-
-      if (showLoader || !allRows.length) {
-        tableContainer.innerHTML = '<div class="loading">Loading data from Google Sheets...</div>';
-      }
-      errorMessage.style.display = "none";
-
-      if (activeLoadController) {
-        activeLoadController.abort();
-      }
-      activeLoadController = new AbortController();
-      const { signal } = activeLoadController;
-
-      let rows = [];
-
-      if (csvParam) {
-        rows = await fetchRowsFromUrl(csvParam, signal);
-      } else {
-        if (DEFAULT_CSV_URL) {
-          rows = await fetchRowsFromUrl(DEFAULT_CSV_URL, signal);
-        } else {
-          const sheetResult = await fetchRowsForSheetName(currentSheetName, signal);
-          rows = sheetResult.rows;
-          if (normalize(sheetResult.resolvedSheetName) !== normalize(currentSheetName)) {
-            currentSheetName = sheetResult.resolvedSheetName;
-            updateSheetQueryParam(currentSheetName);
-          }
-        }
-      }
-
-      if (!rows.length) {
-        throw new Error("No rows found. Make sure the sheet is shared for web access and has a header row.");
-      }
-
-      allRows = rows;
-      rowOrderMap = new WeakMap();
-      allRows.forEach((row, idx) => rowOrderMap.set(row, idx));
-      applyFilters();
-      setActiveSheetChip();
-    }
-
-    function startPolling() {
-      const liveEnabled = parseBooleanParam(getQueryParam("live"), true);
-      const refreshSeconds = parseRefreshSeconds();
-      if (!liveEnabled) {
-        return;
-      }
-
-      if (pollTimerId) {
-        clearInterval(pollTimerId);
-      }
-
-      pollTimerId = window.setInterval(() => {
-        if (document.hidden) {
-          return;
-        }
-        loadData({ showLoader: false }).catch((error) => {
-          if (error.name === "AbortError") {
-            return;
-          }
-          errorMessage.textContent = error.message;
-          errorMessage.style.display = "block";
-        });
-      }, refreshSeconds * 1000);
-    }
-
-    searchInput.addEventListener("input", applyFilters);
-    statusPageFilter.addEventListener("change", applyFilters);
-    sheetScrollLeft.addEventListener("click", () => scrollSheetTabs(-1));
-    sheetScrollRight.addEventListener("click", () => scrollSheetTabs(1));
-    refreshButton.addEventListener("click", () => {
-      loadData({ showLoader: true }).catch((error) => {
-        if (error.name === "AbortError") {
-          return;
-        }
-        errorMessage.textContent = error.message;
-        errorMessage.style.display = "block";
-        tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
-      });
-    });
-
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) {
-        loadData({ showLoader: false }).catch((error) => {
-          if (error.name === "AbortError") {
-            return;
-          }
-          errorMessage.textContent = error.message;
-          errorMessage.style.display = "block";
-        });
-      }
-    });
-
-    async function init() {
-      await initializeSheetPages();
-      currentSheetName = getValidSheetName(getQueryParam("sheet") || sheetPages[0]);
-      renderSheetTabs();
-
-      loadData({ showLoader: true }).catch((error) => {
-        if (error.name === "AbortError") {
-          return;
-        }
-        errorMessage.textContent = error.message;
-        errorMessage.style.display = "block";
-        tableContainer.innerHTML = '<div class="empty">Unable to load data.</div>';
-      });
-
-      startPolling();
-    }
-
-    init();
-  </script>
 </body>
 </html>
