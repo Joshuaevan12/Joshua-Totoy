@@ -76,28 +76,31 @@
     .content {
       position: relative;
       z-index: 1;
-      width: min(1400px, 100%);
-      margin: 0 auto;
-      padding: 34px 22px 22px;
+      width: 100%;
+      margin: 0;
+      padding: 34px 32px 22px;
     }
 
     .top-grid {
       display: grid;
-      grid-template-columns: minmax(260px, 1.1fr) minmax(260px, 0.9fr) minmax(320px, 1fr);
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr) minmax(0, 1fr);
       gap: 24px;
-      align-items: start;
+      align-items: stretch;
+      width: 100%;
     }
 
     .brand-panel,
     .links-panel,
     .contact-panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 24px;
-      backdrop-filter: blur(6px);
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 16px 12px;
+      backdrop-filter: none;
       min-width: 0;
+      width: 100%;
+      height: 100%;
     }
 
     .brand-row {
@@ -208,8 +211,8 @@
       width: 96px;
       height: 96px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.45);
-      background: rgba(255, 255, 255, 0.08);
+      border: 0;
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -237,8 +240,8 @@
     }
 
     .bottom-inner {
-      width: min(1400px, 100%);
-      margin: 0 auto;
+      width: 100%;
+      margin: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -266,6 +269,10 @@
       .links-panel,
       .contact-panel {
         padding: 20px;
+      }
+
+      .content {
+        padding: 24px 18px 18px;
       }
     }
 
@@ -302,7 +309,7 @@
       <div class="top-grid">
         <article class="brand-panel" aria-label="PNR brand summary">
           <div class="brand-row">
-            <img class="logo" src="https://joshuaevan12.github.io/Joshua-Totoy/src/logo/Philippine_National_Railways_(PNR).svg.png" alt="Philippine National Railways logo" loading="lazy" />
+            <img class="logo" src="https://joshuaevan12.github.io/Joshua-Totoy/src/logo/Philippine_National_Railways_%28PNR%29.svg.png" alt="Philippine National Railways logo" loading="lazy" />
             <div>
               <h1 class="brand-title">Philippine National Railways</h1>
               <p class="brand-subtitle">
@@ -350,7 +357,7 @@
           </div>
 
           <div class="mini-badge" aria-hidden="true">
-            <img src="https://joshuaevan12.github.io/Joshua-Totoy/src/logo/Philippine_National_Railways_(PNR).svg.png" alt="" />
+            <img src="https://joshuaevan12.github.io/Joshua-Totoy/src/logo/Philippine_National_Railways_%28PNR%29.svg.png" alt="" />
           </div>
         </aside>
       </div>
