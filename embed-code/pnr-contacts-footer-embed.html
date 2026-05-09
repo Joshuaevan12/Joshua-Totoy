@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PNR Contacts Footer Embed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1d6b;
+      --bg-2: #111f73;
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-strong: rgba(255, 255, 255, 0.1);
+      --line: rgba(255, 255, 255, 0.16);
+      --text: #f7f9ff;
+      --muted: rgba(247, 249, 255, 0.84);
+      --accent: #ffd34d;
+      --accent-2: #f3c63a;
+      --shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: "Public Sans", "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.04), transparent 40%),
+        linear-gradient(180deg, #0b1b63 0%, var(--bg) 100%);
+    }
+
+    .footer-wrap {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-wrap::before,
+    .footer-wrap::after {
+      content: "";
+      position: absolute;
+      inset: auto;
+      width: 60vw;
+      height: 60vw;
+      border-radius: 50%;
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .footer-wrap::before {
+      top: -22vw;
+      left: -24vw;
+      background: rgba(255, 255, 255, 0.08);
+      transform: rotate(18deg);
+    }
+
+    .footer-wrap::after {
+      right: -26vw;
+      bottom: -28vw;
+      background: rgba(255, 255, 255, 0.05);
+      transform: rotate(-12deg);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      width: min(1400px, 100%);
+      margin: 0 auto;
+      padding: 34px 22px 22px;
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, 1.1fr) minmax(260px, 0.9fr) minmax(320px, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .brand-panel,
+    .links-panel,
+    .contact-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      backdrop-filter: blur(6px);
+      min-width: 0;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .logo {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.18));
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: clamp(1.7rem, 1.8vw + 1rem, 2.6rem);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+
+    .brand-subtitle {
+      margin: 8px 0 0;
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 34rem;
+    }
+
+    .social-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .social-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.08);
+      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.42);
+    }
+
+    .panel-title {
+      margin: 0 0 18px;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    .link-list {
+      list-style: square;
+      padding-left: 20px;
+      margin: 0;
+      display: grid;
+      gap: 16px;
+      color: #fff;
+    }
+
+    .link-list li {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .contact-items {
+      display: grid;
+      gap: 18px;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .contact-item strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+      letter-spacing: 0.18px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .contact-item p {
+      margin: 0;
+      color: #fff;
+    }
+
+    .mini-badge {
+      margin-top: 24px;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.05;
+      font-size: 0.84rem;
+      overflow: hidden;
+    }
+
+    .mini-badge img {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+    }
+
+    .bottom-bar {
+      position: relative;
+      z-index: 1;
+      margin-top: 26px;
+      background: rgba(6, 16, 72, 0.7);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 18px 22px;
+    }
+
+    .bottom-inner {
+      width: min(1400px, 100%);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+      flex-wrap: wrap;
+    }
+
+    .bottom-inner a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .bottom-inner a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 1120px) {
+      .top-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-panel,
+      .links-panel,
+      .contact-panel {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .content {
+        padding: 18px 12px 16px;
+      }
+
+      .brand-row {
+        flex-direction: column;
+      }
+
+      .logo {
+        width: 84px;
+        height: 84px;
+      }
+
+      .panel-title {
+        font-size: 1.2rem;
+      }
+
+      .brand-subtitle,
+      .contact-items,
+      .link-list li,
+      .bottom-inner {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="footer-wrap" aria-label="PNR contact footer embed">
+    <section class="content">
+      <div class="top-grid">
+        <article class="brand-panel" aria-label="PNR brand summary">
+          <div class="brand-row">
+            <img class="logo" src="https://joshuaevan12.github.io/Joshua-Totoy/src/logo/Philippine_National_Railways_(PNR).svg.png" alt="Philippine National Railways logo" loading="lazy" />
+            <div>
+              <h1 class="brand-title">Philippine National Railways</h1>
+              <p class="brand-subtitle">
+                Newsroom and contact information for the Philippine National Railways. This footer-style panel is designed for Google Sites embedding and keeps the contact details visible, responsive, and professional.
+              </p>
+            </div>
+          </div>
+
+          <div class="social-row" aria-label="Social media links">
+            <a class="social-btn" href="#" aria-label="Facebook link">f</a>
+            <a class="social-btn" href="#" aria-label="X link">x</a>
+            <a class="social-btn" href="#" aria-label="YouTube link">▶</a>
+            <a class="social-btn" href="#" aria-label="LinkedIn link">in</a>
+          </div>
+        </article>
+
+        <aside class="links-panel" aria-label="Menu links">
+          <h2 class="panel-title">Menu Links</h2>
+          <ul class="link-list">
+            <li>Corporate</li>
+            <li>Services</li>
+            <li>Job Opportunities</li>
+            <li>Network</li>
+            <li>News</li>
+            <li>Sales</li>
+            <li>Privacy Policy</li>
+          </ul>
+        </aside>
+
+        <aside class="contact-panel" aria-label="Contact details">
+          <h2 class="panel-title">Contact Us</h2>
+          <div class="contact-items">
+            <div class="contact-item">
+              <strong>Email</strong>
+              <p>pnrnewsroom@pnr.gov.ph</p>
+            </div>
+            <div class="contact-item">
+              <strong>Landline</strong>
+              <p>5319-0170 | 5319-0041</p>
+            </div>
+            <div class="contact-item">
+              <strong>Address</strong>
+              <p>4th Floor, PNR, Executive Bldg. Mayhaligue St., Tondo, Manila 1000</p>
+            </div>
+          </div>
+
+          <div class="mini-badge" aria-hidden="true">
+            <img src="https://joshuaevan12.github.io/Joshua-Totoy/src/logo/Philippine_National_Railways_(PNR).svg.png" alt="" />
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer class="bottom-bar" aria-label="Footer bar">
+      <div class="bottom-inner">
+        <div>Copyright © 2026 PNR</div>
+        <div>Web Development &amp; Hosting by WAZILE</div>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
