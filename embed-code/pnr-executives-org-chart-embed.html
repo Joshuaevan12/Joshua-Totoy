@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PNR Executive Organizational Chart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f7fc;
+      --surface: #ffffff;
+      --surface-soft: #f7faff;
+      --text: #10233f;
+      --muted: #445a78;
+      --line: #d3deeb;
+      --primary: #0a2f66;
+      --primary-2: #123f85;
+      --accent: #f77f00;
+      --accent-2: #e27100;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 10px;
+      --shadow-lg: 0 16px 38px rgba(10, 47, 102, 0.16);
+      --shadow-md: 0 8px 20px rgba(10, 47, 102, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: "Public Sans", "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(247, 127, 0, 0.16), transparent 38%),
+        radial-gradient(circle at 88% 0%, rgba(10, 47, 102, 0.1), transparent 35%),
+        linear-gradient(180deg, #edf3fb 0%, #f7f9fd 100%);
+    }
+
+    .page {
+      width: min(1680px, 100%);
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      color: #fff;
+      background: linear-gradient(125deg, #08254f 0%, var(--primary) 54%, var(--primary-2) 100%);
+      box-shadow: var(--shadow-lg);
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto -60px -80px auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(247, 127, 0, 0.34), rgba(247, 127, 0, 0));
+      z-index: -1;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.15);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.26px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 12px 0 4px;
+      font-size: clamp(1.15rem, 1.2vw + 0.85rem, 1.72rem);
+      line-height: 1.25;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 980px;
+      font-size: clamp(0.88rem, 0.45vw + 0.78rem, 1rem);
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+    }
+
+    .org-layout {
+      margin-top: 14px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .unit-block {
+      position: relative;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .unit-title {
+      margin: 0 0 8px;
+      display: inline-block;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ffe082, #ffd24d);
+      color: #1f2a3a;
+      font-size: 0.82rem;
+      letter-spacing: 0.25px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .chief-row {
+      display: grid;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .grid-1,
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .grid-5 {
+      display: grid;
+      gap: 10px;
+      align-items: stretch;
+      grid-auto-rows: 1fr;
+      min-width: 0;
+    }
+
+    .grid-1 {
+      grid-template-columns: minmax(280px, 420px);
+      justify-content: center;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .grid-5 {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .card {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #ffffff, var(--surface-soft));
+      padding: 12px;
+      text-align: center;
+      overflow: hidden;
+      min-height: 188px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-width: 0;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 14px rgba(10, 47, 102, 0.12);
+    }
+
+    .photo {
+      width: 86px;
+      height: 86px;
+      border-radius: 999px;
+      border: 3px solid #fff;
+      outline: 2px solid rgba(10, 47, 102, 0.34);
+      object-fit: cover;
+      background: #eef4ff;
+      flex-shrink: 0;
+    }
+
+    .name {
+      margin: 10px 0 3px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #0d2446;
+      word-break: break-word;
+      text-wrap: balance;
+    }
+
+    .role {
+      margin: 0;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 1.35;
+      word-break: break-word;
+      text-wrap: pretty;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(360px, 1fr) minmax(760px, 2fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .lower {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(380px, 1fr));
+      gap: 14px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .unit-block.driver .card {
+      min-height: 188px;
+    }
+
+    .footer-note {
+      margin: 14px 2px 2px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    @media (max-width: 1440px) {
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .grid-5 {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .lower {
+        grid-template-columns: repeat(2, minmax(340px, 1fr));
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .lower {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+      }
+
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .grid-5 {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+
+      .photo {
+        width: 78px;
+        height: 78px;
+      }
+
+      .name {
+        font-size: 0.92rem;
+      }
+
+      .role {
+        font-size: 0.82rem;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .page {
+        padding: 10px;
+      }
+
+      .hero {
+        padding: 16px;
+      }
+
+      .grid-5,
+      .grid-4,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      }
+
+      .lower {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        min-height: 174px;
+      }
+
+      .photo {
+        width: 72px;
+        height: 72px;
+      }
+
+      .name {
+        font-size: 0.88rem;
+      }
+
+      .role {
+        font-size: 0.78rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .lower {
+        grid-template-columns: 1fr;
+      }
+
+      .unit-block {
+        padding: 10px;
+      }
+
+      .grid-5,
+      .grid-4,
+      .grid-3,
+      .grid-2,
+      .grid-1 {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        min-height: 158px;
+      }
+
+      .photo {
+        width: 64px;
+        height: 64px;
+      }
+
+      .name {
+        font-size: 0.84rem;
+      }
+
+      .role {
+        font-size: 0.74rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page" role="main" aria-label="PNR Executive Organizational Chart">
+    <section class="hero" aria-label="Executive chart heading">
+      <span class="hero-badge">Philippine National Railways</span>
+      <h1>Office of the General Manager and Unit Executives</h1>
+      <p>
+        Official organizational view designed for government website embedding. The structure is mobile-responsive, image-backed, and optimized for clear identification of executives and section personnel.
+      </p>
+    </section>
+
+    <section class="org-layout" aria-label="Organizational structure">
+      <article class="unit-block" aria-label="Office of the General Manager">
+        <h2 class="unit-title">Office of the General Manager</h2>
+        <div class="chief-row">
+          <div class="grid-1">
+            <section class="card">
+              <img class="photo" src="../src/Office of the General Manager/GM Miranda.png" alt="Deovanni S. Miranda" loading="lazy" />
+              <h3 class="name">Deovanni S. Miranda</h3>
+              <p class="role">General Manager</p>
+            </section>
+          </div>
+        </div>
+      </article>
+
+      <section class="split" aria-label="Upper executive units">
+        <article class="unit-block" aria-label="Executive Assistants Unit">
+          <h2 class="unit-title">Executive Assistants Unit</h2>
+          <div class="grid-1">
+            <section class="card">
+              <img class="photo" src="../src/Executive Assistant Unit/HEA Manimtim.png" alt="Atty. Devi F. Manimtim" loading="lazy" />
+              <h3 class="name">Atty. Devi F. Manimtim</h3>
+              <p class="role">Head, Executive Assistants Unit</p>
+            </section>
+          </div>
+          <div class="grid-3" style="margin-top:10px;">
+            <section class="card">
+              <img class="photo" src="../src/Executive Assistant Unit/EA B Hermogenes.png" alt="Engr. Camille D. Hermogenes" loading="lazy" />
+              <h3 class="name">Engr. Camille D. Hermogenes</h3>
+              <p class="role">Executive Assistant</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Executive Assistant Unit/Sec Flores.png" alt="Pamela Aubrey S. Flores" loading="lazy" />
+              <h3 class="name">Pamela Aubrey S. Flores</h3>
+              <p class="role">Secretary</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Executive Assistant Unit/Sec B Ligon.png" alt="Claralyn T. Ligon" loading="lazy" />
+              <h3 class="name">Claralyn T. Ligon</h3>
+              <p class="role">Executive Secretary B</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="unit-block" aria-label="Industry Advisory Unit">
+          <h2 class="unit-title">Industry Advisory Unit</h2>
+          <div class="grid-4">
+            <section class="card">
+              <img class="photo" src="../src/Industry Advisory Unit/Estrada.png" alt="Archielito S. Estrada" loading="lazy" />
+              <h3 class="name">Archielito S. Estrada</h3>
+              <p class="role">Information Technology Consultant</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Industry Advisory Unit/Castro.png" alt="Ar. Regie D. Castro" loading="lazy" />
+              <h3 class="name">Ar. Regie D. Castro</h3>
+              <p class="role">Architectural Services Consultant</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Industry Advisory Unit/Zingapan.png" alt="Engr. Warren L. Zingapan" loading="lazy" />
+              <h3 class="name">Engr. Warren L. Zingapan</h3>
+              <p class="role">Management Consultant</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Industry Advisory Unit/Canar.png" alt="Engr. Federico J. Canar Jr." loading="lazy" />
+              <h3 class="name">Engr. Federico J. Canar Jr.</h3>
+              <p class="role">Utility Side Maintenance Supervisor Consultant</p>
+            </section>
+          </div>
+          <div class="grid-4" style="margin-top:10px;">
+            <section class="card">
+              <img class="photo" src="../src/Industry Advisory Unit/Granados.png" alt="Estanislao C. Granados Jr." loading="lazy" />
+              <h3 class="name">Estanislao C. Granados Jr.</h3>
+              <p class="role">PWRM-WRM Consultant</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Industry Advisory Unit/Ravanes.png" alt="Engr. Cipriano A. Ravanes Jr." loading="lazy" />
+              <h3 class="name">Engr. Cipriano A. Ravanes Jr.</h3>
+              <p class="role">Procurement Specialist</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Industry Advisory Unit/Llanda.png" alt="Nichole Ann C. Llanda" loading="lazy" />
+              <h3 class="name">Nichole Ann C. Llanda</h3>
+              <p class="role">Technical Assistant</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Industry Advisory Unit/Soon.png" alt="Francis Arial T. Soon" loading="lazy" />
+              <h3 class="name">Francis Arial T. Soon</h3>
+              <p class="role">Technical Assistant</p>
+            </section>
+          </div>
+        </article>
+      </section>
+
+      <section class="lower" aria-label="Core operating units">
+        <article class="unit-block" aria-label="Administrative Unit">
+          <h2 class="unit-title">Administrative Unit</h2>
+          <div class="grid-1">
+            <section class="card">
+              <img class="photo" src="../src/Administrative Unit/AO III Abangan.png" alt="Jocylene F. Abangan" loading="lazy" />
+              <h3 class="name">Jocylene F. Abangan</h3>
+              <p class="role">Administrative Officer III</p>
+            </section>
+          </div>
+          <div class="grid-2" style="margin-top:10px;">
+            <section class="card">
+              <img class="photo" src="../src/Administrative Unit/AO II Alcantara.png" alt="Joshua Evan D. Alcantara" loading="lazy" />
+              <h3 class="name">Joshua Evan D. Alcantara</h3>
+              <p class="role">Administrative Officer II</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Administrative Unit/AO II Cornelio.png" alt="Janine A. Cornelio" loading="lazy" />
+              <h3 class="name">Janine A. Cornelio</h3>
+              <p class="role">Administrative Officer II</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Administrative Unit/AO I Ladaran.png" alt="Marie Jhelen P. Ladaran" loading="lazy" />
+              <h3 class="name">Marie Jhelen P. Ladaran</h3>
+              <p class="role">Administrative Officer I</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Administrative Unit/DC III Ocampo.png" alt="Mark D. Ocampo" loading="lazy" />
+              <h3 class="name">Mark D. Ocampo</h3>
+              <p class="role">Data Control Clerk III</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="unit-block" aria-label="Overall Program and Project Monitoring Unit">
+          <h2 class="unit-title">Overall Program and Project Monitoring Unit</h2>
+          <div class="grid-2">
+            <section class="card">
+              <img class="photo" src="../src/Overall Program and Project Monitoring Unit/PO II Ty.png" alt="Lian Joshua Mae L. Ty" loading="lazy" />
+              <h3 class="name">Lian Joshua Mae L. Ty</h3>
+              <p class="role">Planning Officer II</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Overall Program and Project Monitoring Unit/PO II Javier.png" alt="Emyl J. Javier" loading="lazy" />
+              <h3 class="name">Emyl J. Javier</h3>
+              <p class="role">Planning Officer II</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Overall Program and Project Monitoring Unit/PO I Bello.png" alt="Jecie Ann D. Bello" loading="lazy" />
+              <h3 class="name">Jecie Ann D. Bello</h3>
+              <p class="role">Planning Officer I</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Overall Program and Project Monitoring Unit/Eng I Alvarez.png" alt="Engr. Raff Razeen O. Alvarez" loading="lazy" />
+              <h3 class="name">Engr. Raff Razeen O. Alvarez</h3>
+              <p class="role">Engineer I</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="unit-block" aria-label="Communications Unit">
+          <h2 class="unit-title">Communications Unit</h2>
+          <div class="grid-1">
+            <section class="card">
+              <img class="photo" src="../src/Communications Unit/IO III Romay.png" alt="Zenjan S. Romay" loading="lazy" />
+              <h3 class="name">Zenjan S. Romay</h3>
+              <p class="role">Information Officer III</p>
+            </section>
+          </div>
+          <div class="grid-2" style="margin-top:10px;">
+            <section class="card">
+              <img class="photo" src="../src/Communications Unit/IO II Naperi.png" alt="John Marvin E. Naperi" loading="lazy" />
+              <h3 class="name">John Marvin E. Naperi</h3>
+              <p class="role">Information Officer II</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Communications Unit/IO II Fuster.png" alt="Remster Jay F. Fuster" loading="lazy" />
+              <h3 class="name">Remster Jay F. Fuster</h3>
+              <p class="role">Information Officer II</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Communications Unit/IO I Pleno.png" alt="Mary Immanuelle C. Pleno" loading="lazy" />
+              <h3 class="name">Mary Immanuelle C. Pleno</h3>
+              <p class="role">Information Officer I</p>
+            </section>
+            <section class="card">
+              <img class="photo" src="../src/Communications Unit/IO I Pantalla.png" alt="Arnold M. Pantalla" loading="lazy" />
+              <h3 class="name">Arnold M. Pantalla</h3>
+              <p class="role">Information Officer I</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="unit-block driver" aria-label="Driver">
+          <h2 class="unit-title">Driver</h2>
+          <div class="grid-1">
+            <section class="card">
+              <img class="photo" src="../src/Driver/Go.png" alt="Florante B. Go" loading="lazy" />
+              <h3 class="name">Florante B. Go</h3>
+              <p class="role">Driver</p>
+            </section>
+          </div>
+        </article>
+      </section>
+    </section>
+
+    <p class="footer-note">
+      Embed-ready for Google Sites. Keep this file inside your hosted embed-code folder so the linked images in src remain available.
+    </p>
+  </main>
+</body>
+</html>
