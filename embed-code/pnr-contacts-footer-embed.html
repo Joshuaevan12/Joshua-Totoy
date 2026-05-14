@@ -37,9 +37,11 @@
         linear-gradient(180deg, #0b1b63 0%, var(--bg) 100%);
     }
 
+    html, body { overflow: hidden; }
+
     .footer-wrap {
       width: 100%;
-      min-height: 100vh;
+      height: 560px; /* fixed visible footer height */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -78,7 +80,9 @@
       z-index: 1;
       width: 100%;
       margin: 0;
-      padding: 34px 32px 22px;
+      padding: 20px 32px 16px;
+      height: calc(100% - 64px); /* leave space for bottom bar */
+      overflow: hidden;
     }
 
     .top-grid {
@@ -366,7 +370,6 @@
     <footer class="bottom-bar" aria-label="Footer bar">
       <div class="bottom-inner">
         <div>Copyright © 2026 PNR</div>
-        <div>Web Development &amp; Hosting by WAZILE</div>
       </div>
     </footer>
   </main>
